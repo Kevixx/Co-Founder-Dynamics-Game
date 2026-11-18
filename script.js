@@ -1522,6 +1522,7 @@
       <div id="speech-notice" class="speech-notice hidden"></div>
       <p class="scenario-text">${escapeHtml(sc.text)}</p>
       <div class="choices" id="choices-box"></div>
+      <div id="choices-hint" class="kbd-hint choices-hint">Tip: Press <kbd>1</kbd>–<kbd>${choices.length}</kbd> to choose an option</div>
       <div id="feedback-container"></div>
     `;
 
@@ -1648,6 +1649,8 @@
     });
 
     // Lock choice buttons and mark selected
+    const choicesHint = el("choices-hint");
+    if (choicesHint) choicesHint.classList.add("hidden");
     const buttons = document.querySelectorAll(".choice-btn");
     buttons.forEach((b, i) => {
       b.disabled = true;

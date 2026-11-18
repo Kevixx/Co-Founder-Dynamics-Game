@@ -1022,6 +1022,22 @@ h1 {
   color: var(--subtle);
 }
 
+.kbd-hint kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-weight: 700;
+  color: var(--muted);
+  background: rgba(148, 163, 184, 0.12);
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+}
+
+.choices-hint {
+  margin-top: 10px;
+}
+
 /* Ending / Debrief Screen */
 .ending-hero {
   display: flex;
