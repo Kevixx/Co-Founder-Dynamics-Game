@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Co-Founder Dynamics: The Startup Survival Game</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <!-- Top Header -->
+    <header class="top-bar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">CF</div>
+        <div>
+          <h1>Co-Founder Dynamics</h1>
+          <p class="subtitle">Navigate equity, ego, and runway to survive to your Seed Round.</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="reading-open-btn" class="icon-btn" type="button" title="Open Founder's Reading & Field Guide">
+          <span>📖</span>
+          <span class="btn-label">Reading</span>
+        </button>
+        <button id="sound-toggle" class="icon-btn" type="button" title="Toggle sound effects" aria-label="Toggle sound effects">
+          <span id="sound-icon">🔊</span>
+          <span class="btn-label">Sound</span>
+        </button>
+        <button id="restart-top-btn" class="icon-btn hidden" type="button" title="Restart run">
+          <span>↺</span>
+          <span class="btn-label">New Run</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Start / Setup Screen -->
+    <section id="start-screen" class="card start-card">
+      <div class="pill-badge">Entrepreneurial Mindset Simulation • 12 Milestones</div>
+      <h2 class="start-title">Can your founding team survive the road to Seed?</h2>
+      <p class="start-desc">
+        Startups rarely die from lack of ideas—they fracture over unspoken expectations, misaligned incentives, and avoided conflict. Every decision shifts <strong>Co-Founder Trust</strong>, <strong>Company Valuation</strong>, and your overall <strong>Entrepreneur Value</strong>.
+      </p>
+
+      <div class="setup-section">
+        <h3 class="section-label">Choose Your Founding Origin</h3>
+        <div class="origin-grid" id="origin-grid">
+          <button type="button" class="origin-card selected" data-origin="hackathon">
+            <div class="origin-head">
+              <span class="origin-name">Hackathon Partners</span>
+              <span class="origin-tag">Balanced</span>
+            </div>
+            <p class="origin-copy">You and Alex built a killer prototype over one weekend. High energy, unproven long-term dynamic.</p>
+            <div class="origin-stats">Trust 70% • Valuation $200k</div>
+          </button>
+
+          <button type="button" class="origin-card" data-origin="friends">
+            <div class="origin-head">
+              <span class="origin-name">University Friends</span>
+              <span class="origin-tag">High Trust</span>
+            </div>
+            <p class="origin-copy">Years of friendship give you deep goodwill, though mixing friendship with business makes hard talks harder.</p>
+            <div class="origin-stats">Trust 80% • Valuation $150k</div>
+          </button>
+
+          <button type="button" class="origin-card" data-origin="veterans">
+            <div class="origin-head">
+              <span class="origin-name">Industry Acquaintances</span>
+              <span class="origin-tag">Investor Favorite</span>
+            </div>
+            <p class="origin-copy">Strong early credibility with angels, but you barely know how each other handles pressure.</p>
+            <div class="origin-stats">Trust 60% • Valuation $280k</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="start-footer">
+        <div class="start-cta-group">
+          <button id="start-game-btn" class="primary-btn" type="button">
+            Launch Startup →
+          </button>
+          <button id="start-reading-btn" class="icon-btn" type="button">
+            📖 Pre-Game Reading
+          </button>
+        </div>
+        <div id="career-stats" class="career-stats"></div>
+      </div>
+    </section>
+
+    <!-- Active Game Container -->
+    <section id="game-shell" class="hidden">
+      <!-- Timeline Progress -->
+      <nav class="timeline-track" id="timeline-track" aria-label="Startup timeline"></nav>
+
+      <!-- Metrics Dashboard -->
+      <section class="dashboard" aria-label="Startup metrics">
+        <div class="metric" data-metric="trust">
+          <div class="metric-header">
+            <span class="metric-title">Co-Founder Trust</span>
+            <div class="metric-nums">
+              <span id="trust-delta" class="float-delta"></span>
+              <span id="trust-val" class="mono">70%</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div id="trust-bar" class="bar-fill trust-fill" style="width: 70%"></div></div>
+          <div class="metric-hint" id="trust-status">Aligned &amp; collaborative</div>
+        </div>
+
+        <div class="metric" data-metric="valuation">
+          <div class="metric-header">
+            <span class="metric-title">Valuation ($k)</span>
+            <div class="metric-nums">
+              <span id="val-delta" class="float-delta"></span>
+              <span id="val-val" class="mono">$200k</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div id="val-bar" class="bar-fill val-fill" style="width: 20%"></div></div>
+          <div class="metric-hint" id="val-status">Early prototype stage</div>
+        </div>
+
+        <div class="metric" data-metric="ent">
+          <div class="metric-header">
+            <span class="metric-title" title="Weighted blend of Co-Founder Trust (55%) and Company Valuation (45%) + governance stability">Entrepreneur Value</span>
+            <div class="metric-nums">
+              <span id="ent-delta" class="float-delta"></span>
+              <span id="ent-val" class="mono">48%</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div id="ent-bar" class="bar-fill ent-fill" style="width: 48%"></div></div>
+          <div class="metric-hint" id="ent-status">Building foundation</div>
+        </div>
+      </section>
+
+      <!-- Co-Founder Pulse & Relational Debt Row -->
+      <div class="status-strip">
+        <div class="cofounder-card">
+          <div class="avatar-wrap" id="alex-avatar" aria-hidden="true"></div>
+          <div class="cofounder-meta">
+            <div class="cofounder-top">
+              <strong>Alex (Technical Co-Founder)</strong>
+              <span class="mood-pill" id="alex-mood">Energized</span>
+            </div>
+            <p class="cofounder-quote" id="alex-quote">"Ready to ship this prototype and prove people want it."</p>
+          </div>
+        </div>
+
+        <div class="debt-box" id="debt-box">
+          <div class="debt-header">
+            <span><strong>Relational Debt</strong> (Avoided Issues)</span>
+            <span class="debt-pill mono" id="debt-count">0</span>
+          </div>
+          <div class="debt-list" id="debt-list">None yet. Open communication keeps debt at zero.</div>
+        </div>
+      </div>
+
+      <!-- Main Scenario / Ending Card -->
+      <section id="game-area" class="card stage-card"></section>
+    </section>
+  </main>
+
+  <!-- Founder's Reading & Field Guide Modal -->
+  <div id="reading-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="reading-modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="pill-badge">Course Reading • 38106 Developing an Entrepreneurial Mindset</span>
+          <h2 id="reading-modal-title" class="modal-title">The Co-Founder Playbook: Equity, Governance &amp; Relational Debt</h2>
+        </div>
+        <div class="modal-actions">
+          <button id="reading-print-btn" class="icon-btn" type="button" title="Print or Save PDF">🖨️ Print</button>
+          <button id="reading-close-btn" class="icon-btn" type="button" aria-label="Close reading">✕ Close</button>
+        </div>
+      </div>
+
+      <nav class="reading-toc" aria-label="Reading sections">
+        <a href="#read-sec-1" class="toc-chip">1. People Risk</a>
+        <a href="#read-sec-2" class="toc-chip">2. Equity &amp; Vesting</a>
+        <a href="#read-sec-3" class="toc-chip">3. Relational Debt</a>
+        <a href="#read-sec-4" class="toc-chip">4. Governance &amp; Roles</a>
+        <a href="#read-sec-5" class="toc-chip">5. Seed Diligence</a>
+        <a href="#read-sec-6" class="toc-chip">Reflection</a>
+      </nav>
+
+      <div class="modal-body" id="reading-body">
+        <div id="reading-run-context" class="reading-run-context hidden"></div>
+
+        <article class="reading-section" id="read-sec-1">
+          <h3>1. Why Startups Die from the Inside (The People Problem)</h3>
+          <p>
+            Early-stage founders obsess over product-market fit, yet empirical research—most famously Noam Wasserman's decade-long study in <em>The Founder's Dilemmas</em>—shows that roughly two-thirds of high-potential startups fail or underperform because of <strong>people and co-founder dynamics</strong>, not flawed technology.
+          </p>
+          <p>
+            Early ventures operate under extreme ambiguity: salaries are low or zero, roles overlap, and every week brings existential pressure. When founders skip hard conversations to preserve harmony—especially when they start as university friends or hackathon partners—small misalignments silently compound until they fracture the team.
+          </p>
+          <div class="reading-callout">
+            <strong>Core Principle:</strong> Friendship and mutual excitement launch startups, but <em>explicit expectations and shared governance</em> keep them alive.
+          </div>
+        </article>
+
+        <article class="reading-section" id="read-sec-2">
+          <h3>2. Handshake Equity vs. Formal Vesting</h3>
+          <p>
+            The most common early mistake is the <strong>"handshake 50/50 split"</strong>—dividing equity equally in Week 1 with zero vesting schedule. Two hazards follow immediately:
+          </p>
+          <ul>
+            <li><strong>Asymmetric Effort:</strong> When one founder writes code at 2 a.m. while another waits for launch, a static handshake feels deeply unfair—creating resentment before the first customer ever pays.</li>
+            <li><strong>The "Dead Equity" Trap:</strong> If a co-founder walks away in Month 6 holding 50% of the company without vesting, the remaining founder cannot raise institutional capital and the startup effectively dies.</li>
+          </ul>
+          <p>
+            Formalizing equity early with a standard <strong>4-year vesting schedule and 1-year cliff</strong> ensures that ownership is earned over time. Just as importantly, it makes an orderly <em>Clean Split</em> possible if two founders later realize their working styles are incompatible.
+          </p>
+        </article>
+
+        <article class="reading-section" id="read-sec-3">
+          <h3>3. Relational Debt &amp; Conflict Avoidance</h3>
+          <p>
+            Just as rushed code accumulates <em>technical debt</em>, avoided conversations accumulate <strong>Relational Debt</strong>. Saying nothing about a missed deadline, an unapproved equity promise, a forced pivot, or an unbalanced workload buys temporary peace at a steep interest rate.
+          </p>
+          <p>
+            Avoided issues rarely fade on their own. Instead, they surface later as passive-aggressiveness, unilateral decisions, or a sudden <strong>Cumulative Conflict Eruption</strong> triggered by an unrelated minor disagreement. Paying down relational debt requires pausing execution for a candid retrospective—costing short-term speed to restore long-term trust.
+          </p>
+          <div class="reading-callout">
+            <strong>Mindset Shift:</strong> High-performing founding teams are not <em>conflict-free</em>; they are <strong>conflict-capable</strong>. They argue against shared 6-month milestones rather than against each other's character.
+          </div>
+        </article>
+
+        <article class="reading-section" id="read-sec-4">
+          <h3>4. Decision-Rights, Boundaries &amp; Psychological Safety</h3>
+          <p>
+            "We'll both do everything" works in Week 1 and collapses by Month 4. Strong co-founder teams separate two categories of decisions:
+          </p>
+          <ul>
+            <li><strong>Domain Ownership:</strong> Clear lead accountability for product/engineering versus customer discovery, pricing, and commercial execution—preventing founders from contradicting each other in front of pilot customers.</li>
+            <li><strong>Joint Governance Decisions:</strong> Cap-table changes, equity grants, strategic pivots, and major capital allocation (such as spending a grant) always require mutual alignment.</li>
+          </ul>
+          <p>
+            When a partner crosses a boundary, effective founders <strong>protect morale in public and establish governance in private</strong>. Public humiliation destroys psychological safety, whereas private accountability preserves dignity and trust.
+          </p>
+        </article>
+
+        <article class="reading-section" id="read-sec-5">
+          <h3>5. What Seed Investors Actually Look For</h3>
+          <p>
+            At Seed stage, product metrics are noisy and markets evolve. Institutional investors therefore underwrite the <strong>durability of the founding team</strong> just as heavily as traction. During due diligence, partners probe for three red flags:
+          </p>
+          <ul>
+            <li><strong>Backchanneling &amp; Power Plays:</strong> A founder who secretly negotiates around their partner destroys investor confidence in team integrity.</li>
+            <li><strong>Erased Recognition:</strong> Changing titles to "Solo Visionary" or sidelining a technical co-founder right before fundraising signals fragile ego dynamics.</li>
+            <li><strong>The "We Never Disagree" Front:</strong> Seasoned VCs know real startups clash constantly; claiming zero conflict signals avoidance rather than alignment.</li>
+          </ul>
+        </article>
+
+        <article class="reading-section" id="read-sec-6">
+          <h3>Reflection Prompts (Connect Theory to Your Run)</h3>
+          <ol class="reflection-list">
+            <li>Where in the simulation were you tempted to choose short-term peace (avoiding conflict) or short-term valuation over co-founder trust—and what was the downstream cost?</li>
+            <li>How did early governance choices (Month 1 role clarity and Month 2 vesting) change the consequences of later crises?</li>
+            <li>If you had to repair Relational Debt mid-year, what made that conversation harder—or easier—than addressing it on Day 1?</li>
+          </ol>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script src="audio_data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
