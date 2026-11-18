@@ -35,4 +35,14 @@ Then visit `http://localhost:8000/`.
 - `index.html` - Application layout, Course Reading modal, and SVG tab icon
 - `script.js` - 12-milestone simulation engine, Web Audio SFX, narration player, and trajectory debrief
 - `styles.css` - Responsive dark-theme styling and print layout
-- `audio_data.js` - Bundled in-memory OGG Vorbis narration clips (`window.GAME_AUDIO`)
+- `audio_data.js` - Bundled in-memory MP3 narration clips (`window.GAME_AUDIO`)
+
+## AI-Assisted Development
+
+AI tooling was used as a collaborative development assistant alongside the author for:
+
+- **Code & Debugging**: Converting the initial prototype into a zero-dependency client-side HTML/CSS/JS app, fixing layout/interaction bugs, and implementing mobile-compatible HTML5/Web Audio playback and keyboard shortcuts.
+- **Narrative & Educational Content**: Expanding the 12-milestone co-founder scenario arc, dynamic conflict-debt callbacks, ending debriefs, and *The Co-Founder Playbook* reading section.
+- **UI & Media Assets**: Styling the responsive dark theme, inline SVG trajectory chart, interactive audio player, SVG favicon, and generating/converting the bundled text-to-speech MP3 narration clips (`ffmpeg`).
+
+All game direction, course alignment, testing, and deployment were guided and reviewed by the author.

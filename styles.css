@@ -1350,6 +1350,21 @@ h1 {
   margin-top: 8px;
 }
 
+.site-footer {
+  margin-top: 20px;
+  padding: 14px 4px 4px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.site-footer strong {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
 @media print {
   body {
     background: #fff;
