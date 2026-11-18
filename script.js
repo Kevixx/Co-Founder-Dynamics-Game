@@ -36,33 +36,80 @@
   const AudioEngine = {
     ctx: null,
     muted: false,
-    ensure() {
-      if (this.muted) return null;
+    unlocked: false,
+    unlockListenersBound: false,
+    init() {
+      if (this.unlockListenersBound || typeof document === "undefined") return;
+      this.unlockListenersBound = true;
+      const onGesture = () => {
+        if (!this.muted) this.unlock();
+      };
+      ["touchstart", "pointerdown", "mousedown", "keydown"].forEach((ev) => {
+        document.addEventListener(ev, onGesture, { capture: true, passive: true });
+      });
+    },
+    configureAudioSession() {
+      try {
+        if (typeof navigator !== "undefined" && navigator.audioSession && navigator.audioSession.type !== "playback") {
+          navigator.audioSession.type = "playback";
+        }
+      } catch {
+        // Ignore unsupported audioSession API
+      }
+    },
+    unlock() {
+      this.configureAudioSession();
       if (!this.ctx) {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return null;
         this.ctx = new AudioCtx();
       }
-      if (this.ctx.state === "suspended") {
+      if (this.ctx.state !== "running" && typeof this.ctx.resume === "function") {
         this.ctx.resume().catch(() => {});
       }
+      if (!this.unlocked && this.ctx) {
+        try {
+          const buf = this.ctx.createBuffer(1, 1, 22050);
+          const src = this.ctx.createBufferSource();
+          src.buffer = buf;
+          src.connect(this.ctx.destination);
+          src.start(0);
+          this.unlocked = true;
+        } catch {
+          // Will retry on next user interaction
+        }
+      }
       return this.ctx;
+    },
+    ensure() {
+      if (this.muted) return null;
+      return this.unlock();
     },
     tone(freq, duration, type = "sine", gainVal = 0.06, delay = 0) {
       const ctx = this.ensure();
       if (!ctx) return;
-      const now = ctx.currentTime + delay;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, now);
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(gainVal, now + 0.015);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + duration + 0.02);
+      const schedule = () => {
+        if (this.muted) return;
+        const now = ctx.currentTime + delay;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(gainVal, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + duration + 0.02);
+      };
+      if (ctx.state === "running") {
+        schedule();
+      } else if (typeof ctx.resume === "function") {
+        ctx.resume().then(() => {
+          if (ctx.state === "running") schedule();
+        }).catch(() => {});
+      }
     },
     playPositive() {
       this.tone(523.25, 0.14, "triangle", 0.055, 0);
@@ -86,6 +133,7 @@
       });
     }
   };
+  AudioEngine.init();
 
   const PLAYER_ICONS = {
     play: `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14z"/></svg>`,
@@ -94,14 +142,17 @@
     next: `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.5 6.2v11.6a.9.9 0 0 0 1.38.76l8.4-5.8a.9.9 0 0 0 0-1.52l-8.4-5.8A.9.9 0 0 0 5.5 6.2z"/><rect x="16.6" y="5.5" width="2.4" height="13" rx="1"/></svg>`
   };
 
-  /* Bundled OGG/MP3 voice narrator with interactive player controls */
+  /* Bundled MP3/OGG voice narrator with mobile-friendly interactive player controls */
   const SpeechEngine = {
     timer: null,
     rafId: null,
+    sharedAudio: null,
+    sharedClipKey: null,
     activeAudio: null,
     activeSource: null,
     activeUtterances: [],
     bufferCache: new Map(),
+    blobUrlCache: new Map(),
     playToken: 0,
     clips: [],
     clipIndex: 0,
@@ -127,7 +178,12 @@
       );
     },
     supported() {
-      return typeof Audio === "function" || typeof AudioContext === "function" || this.speechSupported();
+      return (
+        typeof Audio === "function" ||
+        typeof AudioContext === "function" ||
+        typeof webkitAudioContext === "function" ||
+        this.speechSupported()
+      );
     },
     formatTime(sec) {
       const s = Math.max(0, Math.floor(sec || 0));
@@ -135,20 +191,41 @@
       const r = s % 60;
       return `${m}:${r < 10 ? "0" : ""}${r}`;
     },
-    pickAudioExt() {
-      if (typeof Audio !== "function") return "ogg";
-      try {
-        const probe = new Audio();
-        if (probe.canPlayType && probe.canPlayType("audio/ogg; codecs=vorbis")) {
-          return "ogg";
-        }
-        if (probe.canPlayType && probe.canPlayType("audio/mpeg")) {
-          return "mp3";
-        }
-      } catch {
-        // Ignore canPlayType errors
+    detectMime(b64) {
+      return b64 && b64.startsWith("T2dnUw") ? "audio/ogg" : "audio/mpeg";
+    },
+    decodeBase64Bytes(b64) {
+      const bin = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let idx = 0; idx < bin.length; idx++) {
+        bytes[idx] = bin.charCodeAt(idx);
       }
-      return "ogg";
+      return bytes;
+    },
+    getClipUrl(key) {
+      if (this.blobUrlCache.has(key)) return this.blobUrlCache.get(key);
+      const b64 = window.GAME_AUDIO ? window.GAME_AUDIO[key] : null;
+      if (!b64) return null;
+      const mime = this.detectMime(b64);
+      let url;
+      if (typeof Blob === "function" && typeof URL !== "undefined" && typeof URL.createObjectURL === "function") {
+        const bytes = this.decodeBase64Bytes(b64);
+        url = URL.createObjectURL(new Blob([bytes], { type: mime }));
+      } else {
+        url = `data:${mime};base64,${b64}`;
+      }
+      this.blobUrlCache.set(key, url);
+      return url;
+    },
+    ensureSharedAudio() {
+      if (typeof Audio !== "function") return null;
+      if (!this.sharedAudio) {
+        const audio = new Audio();
+        audio.preload = "auto";
+        if ("playsInline" in audio) audio.playsInline = true;
+        this.sharedAudio = audio;
+      }
+      return this.sharedAudio;
     },
     showNotice(msg) {
       const box = el("speech-notice");
@@ -199,9 +276,9 @@
         try {
           this.activeAudio.onended = null;
           this.activeAudio.onerror = null;
+          this.activeAudio.onloadedmetadata = null;
           this.activeAudio.ontimeupdate = null;
           this.activeAudio.pause();
-          this.activeAudio.src = "";
         } catch {
           // Ignore audio pause errors
         }
@@ -224,8 +301,12 @@
       this.updatePlayerUI();
     },
     getCurrentTime() {
-      if (this.activeAudio && !Number.isNaN(this.activeAudio.currentTime)) {
-        return this.activeAudio.currentTime;
+      if (
+        this.activeAudio &&
+        this.activeAudio.readyState >= 1 &&
+        !Number.isNaN(this.activeAudio.currentTime)
+      ) {
+        return Math.max(0, this.activeAudio.currentTime);
       }
       if (this.isPlaying && AudioEngine.ctx) {
         const elapsed = (AudioEngine.ctx.currentTime - this.startedAtCtxTime) * this.playbackRate;
@@ -310,13 +391,30 @@
       });
       return clips;
     },
-    decodeBase64(b64) {
-      const bin = atob(b64);
-      const bytes = new Uint8Array(bin.length);
-      for (let idx = 0; idx < bin.length; idx++) {
-        bytes[idx] = bin.charCodeAt(idx);
-      }
-      return bytes.buffer;
+    decodeAudioDataCompat(ctx, arrayBuffer) {
+      return new Promise((resolve, reject) => {
+        let settled = false;
+        const done = (buf) => {
+          if (!settled) {
+            settled = true;
+            resolve(buf);
+          }
+        };
+        const fail = (err) => {
+          if (!settled) {
+            settled = true;
+            reject(err);
+          }
+        };
+        try {
+          const maybePromise = ctx.decodeAudioData(arrayBuffer, done, fail);
+          if (maybePromise && typeof maybePromise.then === "function") {
+            maybePromise.then(done, fail);
+          }
+        } catch (err) {
+          fail(err);
+        }
+      });
     },
     async loadClipBuffer(clip) {
       const ctx = AudioEngine.ensure();
@@ -326,105 +424,180 @@
       if (!window.GAME_AUDIO || !window.GAME_AUDIO[key]) {
         throw new Error(`Missing embedded clip ${key}`);
       }
-      const arr = this.decodeBase64(window.GAME_AUDIO[key]);
-      const buf = await ctx.decodeAudioData(arr);
+      const arr = this.decodeBase64Bytes(window.GAME_AUDIO[key]).buffer;
+      const buf = await this.decodeAudioDataCompat(ctx, arr);
       this.bufferCache.set(key, buf);
       return buf;
     },
-    async loadMetadataFor(index) {
+    loadMetadataFor(index) {
       const clip = this.clips[index];
       if (!clip) return;
-      try {
-        const buf = await this.loadClipBuffer(clip);
-        if (this.clipIndex === index) {
-          this.duration = buf.duration || 0;
-          this.updatePlayerUI();
-        }
-      } catch {
-        // Ignore preload metadata error
+      const url = this.getClipUrl(clip.base);
+      if (typeof Audio === "function" && url) {
+        const probe = new Audio();
+        probe.preload = "metadata";
+        probe.onloadedmetadata = () => {
+          if (this.clipIndex === index && Number.isFinite(probe.duration) && probe.duration > 0) {
+            this.duration = probe.duration;
+            this.updatePlayerUI();
+          }
+        };
+        probe.src = url;
+        return;
+      }
+      if (!AudioEngine.muted) {
+        this.loadClipBuffer(clip)
+          .then((buf) => {
+            if (this.clipIndex === index) {
+              this.duration = buf.duration || 0;
+              this.updatePlayerUI();
+            }
+          })
+          .catch(() => {});
       }
     },
-    async playClipAt(index, offset = 0) {
+    playClipAt(index, offset = 0) {
       if (!this.clips.length) return;
       const clampedIdx = Math.max(0, Math.min(this.clips.length - 1, index));
       this.stopCurrentPlayback();
       this.showNotice("");
       this.clipIndex = clampedIdx;
-      const item = this.clips[clampedIdx];
       const token = this.playToken;
 
-      const ctx = AudioEngine.ensure();
-      if (ctx) {
-        try {
-          const buf = await this.loadClipBuffer(item);
-          if (token !== this.playToken || AudioEngine.muted) return;
-
-          this.duration = buf.duration || 0;
-          const safeOffset = Math.max(0, Math.min(Math.max(0, this.duration - 0.05), offset));
-          this.offsetSeconds = safeOffset;
-          this.startedAtCtxTime = ctx.currentTime;
-          this.isPlaying = true;
-          this.highlightChoice(item.choiceIdx);
-
-          const source = ctx.createBufferSource();
-          source.buffer = buf;
-          if (source.playbackRate) source.playbackRate.value = this.playbackRate;
-          source.connect(ctx.destination);
-          this.activeSource = source;
-
-          source.onended = () => {
-            if (token !== this.playToken) return;
-            if (this.activeSource === source) this.activeSource = null;
-            if (clampedIdx + 1 < this.clips.length) {
-              this.playClipAt(clampedIdx + 1, 0);
-            } else {
-              this.isPlaying = false;
-              this.clipIndex = 0;
-              this.offsetSeconds = 0;
-              this.clearHighlights();
-              this.loadMetadataFor(0);
-              this.updatePlayerUI();
-            }
-          };
-
-          this.updatePlayerUI();
-          this.startRaf();
-          source.start(0, safeOffset);
-          return;
-        } catch (err) {
-          if (token !== this.playToken) return;
-          // Fall through to HTML5 Audio fallback
-        }
+      const audio = this.ensureSharedAudio();
+      if (audio) {
+        this.playHtml5At(clampedIdx, offset, token);
+        return;
       }
 
-      this.playHtml5At(clampedIdx, offset, token);
+      this.playWebAudioAt(clampedIdx, offset, token);
     },
-    playHtml5At(index, offset, token) {
+    async playWebAudioAt(index, offset, token) {
       const item = this.clips[index];
-      const b64 = item && window.GAME_AUDIO ? window.GAME_AUDIO[item.base] : null;
-      if (typeof Audio !== "function" || !b64) {
+      if (!item) return;
+      const ctx = AudioEngine.ensure();
+      if (!ctx) {
+        this.isPlaying = false;
+        this.clearHighlights();
         this.showNotice("Audio playback unavailable in this browser.");
         this.updatePlayerUI();
         return;
       }
 
-      const audio = new Audio(`data:audio/ogg;base64,${b64}`);
-      audio.playbackRate = this.playbackRate;
+      try {
+        if (ctx.state !== "running" && typeof ctx.resume === "function") {
+          await ctx.resume();
+        }
+        const buf = await this.loadClipBuffer(item);
+        if (token !== this.playToken || AudioEngine.muted) return;
+        if (ctx.state !== "running") {
+          throw Object.assign(new Error("AudioContext suspended"), { name: "NotAllowedError" });
+        }
+
+        this.duration = buf.duration || 0;
+        const safeOffset = Math.max(0, Math.min(Math.max(0, this.duration - 0.05), offset));
+        this.offsetSeconds = safeOffset;
+        this.startedAtCtxTime = ctx.currentTime;
+        this.isPlaying = true;
+        this.highlightChoice(item.choiceIdx);
+
+        const source = ctx.createBufferSource();
+        source.buffer = buf;
+        if (source.playbackRate) source.playbackRate.value = this.playbackRate;
+        source.connect(ctx.destination);
+        this.activeSource = source;
+
+        source.onended = () => {
+          if (token !== this.playToken) return;
+          if (this.activeSource === source) this.activeSource = null;
+          if (index + 1 < this.clips.length) {
+            this.playClipAt(index + 1, 0);
+          } else {
+            this.isPlaying = false;
+            this.clipIndex = 0;
+            this.offsetSeconds = 0;
+            this.clearHighlights();
+            this.loadMetadataFor(0);
+            this.updatePlayerUI();
+          }
+        };
+
+        this.updatePlayerUI();
+        this.startRaf();
+        source.start(0, safeOffset);
+      } catch (err) {
+        if (token !== this.playToken) return;
+        this.activeSource = null;
+        this.isPlaying = false;
+        this.clearHighlights();
+        if (err && err.name === "NotAllowedError") {
+          this.showNotice("Tap ▶ in the player to start narration.");
+        } else {
+          this.showNotice("Voice narration unavailable in this browser.");
+        }
+        this.updatePlayerUI();
+      }
+    },
+    playHtml5At(index, offset, token) {
+      const item = this.clips[index];
+      const url = item ? this.getClipUrl(item.base) : null;
+      const audio = this.ensureSharedAudio();
+      if (!audio || !url) {
+        this.playWebAudioAt(index, offset, token);
+        return;
+      }
+
+      const fallbackToWebAudio = (errName) => {
+        if (token !== this.playToken) return;
+        this.activeAudio = null;
+        if (
+          errName !== "NotAllowedError" ||
+          (AudioEngine.ctx && AudioEngine.ctx.state === "running")
+        ) {
+          this.playWebAudioAt(index, offset, token);
+        } else {
+          this.isPlaying = false;
+          this.clearHighlights();
+          this.showNotice("Tap ▶ in the player to start narration.");
+          this.updatePlayerUI();
+        }
+      };
+
+      const safeOffset = Math.max(0, offset || 0);
       this.activeAudio = audio;
+      this.offsetSeconds = safeOffset;
       this.isPlaying = true;
       this.highlightChoice(item.choiceIdx);
 
+      try {
+        if ("preservesPitch" in audio) audio.preservesPitch = true;
+        if ("webkitPreservesPitch" in audio) audio.webkitPreservesPitch = true;
+      } catch {
+        // Ignore pitch preservation property errors
+      }
+
       audio.onloadedmetadata = () => {
         if (token !== this.playToken) return;
-        this.duration = audio.duration || 0;
-        if (offset > 0 && offset < this.duration) {
-          audio.currentTime = offset;
+        if (Number.isFinite(audio.duration) && audio.duration > 0) {
+          this.duration = audio.duration;
+        }
+        if (safeOffset > 0 && (!this.duration || safeOffset < this.duration)) {
+          try {
+            audio.currentTime = safeOffset;
+          } catch {
+            // Ignore seek before ready on strict browsers
+          }
         }
         this.updatePlayerUI();
       };
       audio.ontimeupdate = () => {
         if (token !== this.playToken) return;
-        this.offsetSeconds = audio.currentTime || 0;
+        if (Number.isFinite(audio.duration) && audio.duration > 0) {
+          this.duration = audio.duration;
+        }
+        if (!Number.isNaN(audio.currentTime)) {
+          this.offsetSeconds = audio.currentTime;
+        }
         this.updatePlayerUI();
       };
       audio.onended = () => {
@@ -441,28 +614,35 @@
         }
       };
       audio.onerror = () => {
-        if (token !== this.playToken) return;
-        this.activeAudio = null;
-        this.isPlaying = false;
-        this.clearHighlights();
-        this.showNotice("Voice narration unavailable in this browser.");
-        this.updatePlayerUI();
+        fallbackToWebAudio("MediaError");
       };
 
+      const isSameClip = this.sharedClipKey === item.base && audio.src === url && audio.readyState >= 1;
+      if (!isSameClip) {
+        this.duration = 0;
+        this.sharedClipKey = item.base;
+        audio.src = url;
+      } else {
+        if (Number.isFinite(audio.duration) && audio.duration > 0) {
+          this.duration = audio.duration;
+        }
+        try {
+          if (Math.abs((audio.currentTime || 0) - safeOffset) > 0.1 || audio.ended) {
+            audio.currentTime = safeOffset;
+          }
+        } catch {
+          // Ignore seek errors
+        }
+      }
+      audio.playbackRate = this.playbackRate;
+
       this.updatePlayerUI();
+      this.startRaf();
       const p = audio.play();
       if (p && typeof p.catch === "function") {
         p.catch((err) => {
-          if (token !== this.playToken) return;
-          this.activeAudio = null;
-          this.isPlaying = false;
-          this.clearHighlights();
-          if (err && err.name === "NotAllowedError") {
-            this.showNotice("Browser paused autoplay—press ▶ in the player to start narration.");
-          } else {
-            this.showNotice(`Voice narration unavailable (${err ? err.message || err.name : "Playback failed"}).`);
-          }
-          this.updatePlayerUI();
+          if (token !== this.playToken || (err && err.name === "AbortError")) return;
+          fallbackToWebAudio(err ? err.name : "PlaybackError");
         });
       }
     },
@@ -481,6 +661,7 @@
           AudioEngine.muted = false;
           el("sound-icon").textContent = "🔊";
         }
+        AudioEngine.unlock();
         this.playClipAt(this.clipIndex, this.offsetSeconds);
       }
     },
@@ -521,11 +702,22 @@
         AudioEngine.muted = false;
         el("sound-icon").textContent = "🔊";
       }
+      AudioEngine.unlock();
       this.playClipAt(idx, 0);
     },
     seekToRatio(ratio) {
       if (!this.duration) return;
       const target = Math.max(0, Math.min(this.duration, ratio * this.duration));
+      if (this.isPlaying && this.activeAudio && this.activeAudio.readyState >= 1) {
+        try {
+          this.activeAudio.currentTime = target;
+          this.offsetSeconds = target;
+          this.updatePlayerUI();
+          return;
+        } catch {
+          // Fall through to full restart seek
+        }
+      }
       if (this.isPlaying) {
         this.playClipAt(this.clipIndex, target);
       } else {
@@ -538,6 +730,11 @@
       const nextRate = this.speeds[(curIdx + 1) % this.speeds.length];
       const curPos = this.getCurrentTime();
       this.playbackRate = nextRate;
+      if (this.isPlaying && this.activeAudio) {
+        this.activeAudio.playbackRate = nextRate;
+        this.updatePlayerUI();
+        return;
+      }
       if (this.isPlaying) {
         this.playClipAt(this.clipIndex, curPos);
       } else {
@@ -551,10 +748,11 @@
       this.clipIndex = 0;
       this.offsetSeconds = 0;
       this.duration = 0;
-      this.loadMetadataFor(0);
       this.updatePlayerUI();
       if (autoPlay && !AudioEngine.muted) {
         this.playClipAt(0, 0);
+      } else {
+        this.loadMetadataFor(0);
       }
     },
     readRound(scenario, choices, force = false) {
@@ -2013,9 +2211,7 @@
     el("game-shell").classList.add("hidden");
     el("restart-top-btn").classList.add("hidden");
     el("start-screen").classList.remove("hidden");
-    window.addEventListener("beforeunload", () => SpeechEngine.stop());
-
-  renderCareerSummary();
+    renderCareerSummary();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -2054,6 +2250,7 @@
     if (AudioEngine.muted) {
       SpeechEngine.pause();
     } else {
+      AudioEngine.unlock();
       AudioEngine.playClick();
       if (!el("game-shell").classList.contains("hidden") && !state.awaitingNext && !state.ended) {
         if (SpeechEngine.clips.length) {
