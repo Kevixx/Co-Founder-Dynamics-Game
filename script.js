@@ -2034,7 +2034,6 @@
   el("restart-top-btn").addEventListener("click", returnToStart);
 
   el("reading-open-btn").addEventListener("click", openReadingModal);
-  el("start-reading-btn").addEventListener("click", openReadingModal);
   el("reading-close-btn").addEventListener("click", closeReadingModal);
   el("reading-print-btn").addEventListener("click", () => window.print && window.print());
   el("reading-modal").addEventListener("click", (e) => {
