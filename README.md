@@ -20,17 +20,17 @@ Every choice affects the outcome. Strong communication and aligned incentives ca
 
 ## Run Locally
 
-Open `game.html` directly in a modern web browser, or serve the project locally:
+Open `index.html` directly in a modern web browser, or serve the project locally:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit `http://localhost:8000/game.html`.
+Then visit `http://localhost:8000/index.html`.
 
 ## Project Files
 
-- `game.html` - Application layout and interface
+- `index.html` - Application layout and interface
 - `script.js` - Game logic, choices, progress, and outcomes
 - `styles.css` - Responsive styling
 - `audio_data.js` - In-browser audio data
