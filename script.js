@@ -2017,6 +2017,11 @@
   }
 
   /* Event Wiring */
+  const bind = (id, ev, fn) => {
+    const node = el(id);
+    if (node) node.addEventListener(ev, fn);
+  };
+
   document.querySelectorAll(".origin-card").forEach((card) => {
     card.addEventListener("click", () => {
       AudioEngine.playClick();
@@ -2026,21 +2031,21 @@
     });
   });
 
-  el("start-game-btn").addEventListener("click", () => {
+  bind("start-game-btn", "click", () => {
     AudioEngine.playPositive();
     startRun(selectedOriginKey);
   });
 
-  el("restart-top-btn").addEventListener("click", returnToStart);
+  bind("restart-top-btn", "click", returnToStart);
 
-  el("reading-open-btn").addEventListener("click", openReadingModal);
-  el("reading-close-btn").addEventListener("click", closeReadingModal);
-  el("reading-print-btn").addEventListener("click", () => window.print && window.print());
-  el("reading-modal").addEventListener("click", (e) => {
+  bind("reading-open-btn", "click", openReadingModal);
+  bind("reading-close-btn", "click", closeReadingModal);
+  bind("reading-print-btn", "click", () => window.print && window.print());
+  bind("reading-modal", "click", (e) => {
     if (e.target === el("reading-modal")) closeReadingModal();
   });
 
-  el("sound-toggle").addEventListener("click", () => {
+  bind("sound-toggle", "click", () => {
     AudioEngine.muted = !AudioEngine.muted;
     el("sound-icon").textContent = AudioEngine.muted ? "🔇" : "🔊";
     if (AudioEngine.muted) {
@@ -2059,15 +2064,32 @@
   });
 
   document.addEventListener("keydown", (e) => {
-    if (!el("reading-modal").classList.contains("hidden")) {
+    const modal = el("reading-modal");
+    if (modal && !modal.classList.contains("hidden")) {
       if (e.key === "Escape") closeReadingModal();
       return;
     }
-    if (el("game-shell").classList.contains("hidden") || state.ended) return;
-    if (e.target && ["INPUT", "TEXTAREA"].includes(e.target.tagName)) return;
+    const shell = el("game-shell");
+    if (!shell || shell.classList.contains("hidden") || state.ended) return;
+    if (
+      e.target &&
+      (e.target.tagName === "TEXTAREA" ||
+        (e.target.tagName === "INPUT" && e.target.type !== "range"))
+    ) {
+      return;
+    }
 
-    if (!state.awaitingNext && ["1", "2", "3", "4"].includes(e.key)) {
-      const idx = Number(e.key) - 1;
+    const digitMatch =
+      ["1", "2", "3", "4"].includes(e.key)
+        ? Number(e.key)
+        : /^Digit([1-4])$/.test(e.code || "")
+        ? Number(e.code.slice(5))
+        : /^Numpad([1-4])$/.test(e.code || "")
+        ? Number(e.code.slice(6))
+        : 0;
+
+    if (!state.awaitingNext && digitMatch >= 1 && digitMatch <= 4) {
+      const idx = digitMatch - 1;
       const buttons = document.querySelectorAll(".choice-btn");
       if (buttons[idx] && !buttons[idx].disabled) {
         selectChoice(idx);
