@@ -6,21 +6,21 @@
   const ORIGINS = {
     hackathon: {
       name: "Hackathon Partners",
-      trust: 70,
-      valuation: 20, // $200k
-      quote: "Ready to ship this prototype and prove people actually want it."
+      trust: 58,
+      valuation: 24, // $240k
+      quote: "Prototype shipped. Now prove customers care."
     },
     friends: {
       name: "University Friends",
-      trust: 80,
-      valuation: 15, // $150k
-      quote: "Building a company with my best friend—just hope business stays easy."
+      trust: 62,
+      valuation: 20, // $200k
+      quote: "Years of trust—let's keep business clean."
     },
     veterans: {
       name: "Industry Acquaintances",
-      trust: 60,
-      valuation: 28, // $280k
-      quote: "Investors love our resumes. Let's see how we actually work together."
+      trust: 52,
+      valuation: 30, // $300k
+      quote: "Strong resumes. Time to see how we handle pressure."
     }
   };
 
@@ -766,264 +766,260 @@
     {
       id: "m1",
       shortLabel: "M1",
-      month: "Month 1: The Coffee Shop Kickoff",
-      chapter: "Discovery & Role Clarity",
-      text: "Week 2 of your startup. Alex wants to lock in for six weeks to build a full-featured v1 in stealth before showing anyone. You believe you should interview 25 target customers with rough mockups first. Neither of you has written down who owns product versus commercial decisions.",
+      month: "Month 1: Kickoff Sprint",
+      chapter: "Discovery & Roles",
+      text: "Week 2. Alex wants six weeks uninterrupted to code v1. You want 25 customer interviews before building anything.",
       getChoices: () => [
         {
-          text: "Agree to a 2-week split sprint: Alex builds a clickable core flow while you run 20 user interviews, plus write down role ownership.",
-          trust: 10,
-          val: 10,
+          text: "Build a 2-week prototype, run 15 interviews, and define roles.",
+          trust: 3,
+          val: 4,
           avoided: null,
           roleClarity: true,
           tag: "Aligned",
-          alexQuote: "Deal—building a lean clickable prototype while you test demand beats guessing in a vacuum.",
-          feedback: "You channel Alex's builder energy into a fast prototype while validating real customer pain points and defining clear decision-rights.",
-          lesson: "Pair customer discovery with rapid prototyping, and clarify founder roles before ego or overlap sets in."
+          alexQuote: "Fair—a two-week prototype beats coding blind.",
+          feedback: "Lean prototype meets real buyer input, with clear role boundaries.",
+          lesson: "Pair fast prototyping with discovery and early role clarity."
         },
         {
-          text: "Let Alex build in stealth for 6 weeks while you quietly work on pitch slides to avoid an early clash.",
-          trust: -6,
-          val: -4,
-          avoided: "Unaligned stealth build & undefined roles (Month 1)",
+          text: "Let Alex code v1 while you build the investor pipeline.",
+          trust: 1,
+          val: -3,
+          avoided: "Unvalidated v1 & vague roles (M1)",
           tag: "Avoidant",
-          alexQuote: "Cool, catch you in a few weeks—I'll ping you once the backend is ready.",
-          feedback: "You avoid a Day-1 debate, but building without customer validation or shared ownership leaves you disconnected from the start.",
-          lesson: "Stealth building without customer feedback is one of the fastest ways startups burn their earliest months."
+          alexQuote: "Great—ping me once investor intros heat up.",
+          feedback: "Zero friction today, but you build six weeks without user proof.",
+          lesson: "Divide-and-conquer fails when nobody validates demand."
         },
         {
-          text: "Insist on zero coding until all 25 interviews are finished, overruling Alex's prototype excitement.",
-          trust: -14,
-          val: 6,
+          text: "Freeze all coding until 25 customer interviews wrap up.",
+          trust: -7,
+          val: 5,
           avoided: null,
           tag: "Top-Down",
-          alexQuote: "Six weeks of interviews with nothing to show? Feels like I'm benched before we even start.",
-          feedback: "Your customer research discipline keeps focus sharp, though shutting down Alex's builder momentum creates early friction.",
-          lesson: "Technical co-founders stay energized when discovery and tangible product iteration happen side-by-side."
+          alexQuote: "Weeks of calls and zero code? Why am I even here?",
+          feedback: "Research stays sharp, but benching Alex kills early momentum.",
+          lesson: "Keep builders shipping testable artifacts alongside discovery."
         },
         {
-          text: "Jump straight into building together without formalizing roles—you'll figure out ownership as you go.",
-          trust: 4,
-          val: 4,
-          avoided: "Undefined founder decision-rights (Month 1)",
+          text: "Hack the MVP side-by-side now; formalize roles after launch.",
+          trust: 2,
+          val: 3,
+          avoided: "No decision-rights split (M1)",
           tag: "Informal",
-          alexQuote: "Why overcomplicate it? We're a team of two—we'll both just do whatever needs doing.",
-          feedback: "Velocity feels effortless in Week 2, yet leaving decision boundaries undefined sets the stage for stepping on each other's toes later.",
-          lesson: "'We'll both do everything' works in Week 1 and breaks down the moment customers, equity, or deadlines arrive."
+          alexQuote: "Let's just ship—no need for rules yet.",
+          feedback: "Fast early energy, though unspoken role overlap will resurface.",
+          lesson: "Shared hustle works in Week 1 and collides by Month 4."
         }
       ]
     },
     {
       id: "m2",
       shortLabel: "M2",
-      month: "Month 2: The Handshake Split",
-      chapter: "Equity & Fairness",
-      text: "You and Alex initially split equity on a handshake. Two months in, Alex has been coding nights and weekends on the prototype while you handled early customer interviews. One evening he tells you he's putting in far more hours than planned and wants a formal equity split before writing another line of code.",
+      month: "Month 2: Equity Split",
+      chapter: "Equity & Vesting",
+      text: "Alex worked nights on the backend while you ran user calls. Before continuing, he asks for a bigger equity slice.",
       getChoices: () => [
         {
-          text: "Propose a split that favors Alex (e.g., 60/40 with a 4-year vesting schedule).",
-          trust: 15,
-          val: 5,
+          text: "Agree to 55/45 favoring Alex, with 4-year vesting.",
+          trust: 3,
+          val: 2,
           avoided: null,
           earlyAgree: true,
           equitySplitType: "generous",
           tag: "Generous",
-          alexQuote: "Honestly, that means a lot. Having vesting in place makes me feel we're both protected.",
-          feedback: "Alex feels deeply valued and motivated. Formalizing early with vesting aligns long-term incentives, even though you gave up personal equity.",
-          lesson: "Fairness isn't always 50/50—recognizing uneven early risk builds immense founder goodwill, and vesting protects the company if someone leaves."
+          alexQuote: "That feels fair—and vesting keeps us both committed.",
+          feedback: "Alex feels recognized, and vesting protects the cap table.",
+          lesson: "Vesting matters more than winning a few extra points."
         },
         {
-          text: "Propose an equal 50/50 split with formal 4-year vesting and clear role milestones.",
-          trust: 10,
-          val: 10,
+          text: "Hold firm on 50/50 with a 1-year vesting cliff.",
+          trust: 1,
+          val: 5,
           avoided: null,
           earlyAgree: true,
           equitySplitType: "equal",
           tag: "Balanced",
-          alexQuote: "Deal. A 1-year cliff keeps both of us honest for the long haul.",
-          feedback: "You validate Alex's prototype sprint while framing the startup as a multi-year marathon where customer discovery and engineering carry equal weight.",
-          lesson: "Equal splits paired with vesting and explicit role expectations prevent early resentment and signal maturity to future investors."
+          alexQuote: "Tough talk, though a 1-year cliff keeps us accountable.",
+          feedback: "Tense negotiation, but you lock in a clean equal structure.",
+          lesson: "Long-term value comes equally from building and selling."
         },
         {
-          text: "Propose a split that favors yourself as CEO (65/35).",
-          trust: -25,
-          val: 0,
+          text: "Counter with 55/45 for yourself as fundraising CEO.",
+          trust: -10,
+          val: 3,
           avoided: null,
           earlyAgree: true,
           equitySplitType: "selfish",
           tag: "Aggressive",
-          alexQuote: "Wait—I built the entire product after hours and you want two-thirds? Fine, put it on paper, but don't expect overtime.",
-          feedback: "Aggressive move. Given Alex's nights and weekends on the prototype, claiming majority equity severely damages his trust and sense of fairness.",
-          lesson: "Over-optimizing your personal slice at Month 2 often shrinks the whole pie by killing co-founder motivation."
+          alexQuote: "Fine, sign it—just don't expect more weekend sprints.",
+          feedback: "Paperwork is signed, but Alex resents losing parity.",
+          lesson: "Winning extra early points often costs co-founder effort."
         },
         {
-          text: "Postpone the legal talk until after launch so you don't slow down momentum.",
-          trust: -10,
-          val: 5,
-          avoided: "Unresolved equity split (Month 2)",
+          text: "Keep it informal until first revenue so shipping doesn't stall.",
+          trust: -4,
+          val: 4,
+          avoided: "Unvested handshake equity (M2)",
           earlyAgree: false,
           equitySplitType: "postponed",
           tag: "Avoidant",
-          alexQuote: "Sure, we can talk later... I guess I'll just keep building for now.",
-          feedback: "You dodge an uncomfortable negotiation today, keeping short-term velocity, but uncertainty and resentment begin simmering.",
-          lesson: "Handshake deals are ticking time bombs—every milestone you hit increases the stakes and makes the eventual equity talk harder."
+          alexQuote: "Guess we'll revisit it later... back to code.",
+          feedback: "Shipping continues, while cap-table uncertainty simmers.",
+          lesson: "Handshake equity gets harder to fix every month."
         }
       ]
     },
     {
       id: "m3",
       shortLabel: "M3",
-      month: "Month 3: The $100,000 Pivot Offer",
+      month: "Month 3: The $100k Pivot",
       chapter: "Vision vs. Capital",
-      text: "An angel investor offers $100,000 immediately—but only if you pivot your prototype into an enterprise compliance tool. Alex strongly believes in your original consumer mission and warns the pivot will kill your team's energy.",
+      text: "An angel offers $100k today—only if you pivot into B2B compliance. Alex hates compliance and backs your original idea.",
       getChoices: () => [
         {
-          text: "Accept the check and force the pivot immediately.",
-          trust: -25,
-          val: 28,
-          avoided: "Forced pivot against co-founder's vision (Month 3)",
+          text: "Accept the $100k and pivot into B2B compliance.",
+          trust: -11,
+          val: 11,
+          avoided: "Forced B2B pivot (M3)",
           forcedPivot: true,
           tag: "Capital-First",
-          alexQuote: "You didn't even ask what I thought—you just took the money. I didn't sign up to build compliance forms.",
-          feedback: "Your valuation jumps with the $100k injection, but overriding Alex's core passion fractures your shared sense of purpose.",
-          lesson: "Chasing investor-driven pivots without co-founder buy-in buys runway at the cost of intrinsic motivation."
+          alexQuote: "We chased one check straight into a product I hate.",
+          feedback: "Runway jumps fast, but Alex feels overruled on mission.",
+          lesson: "Runway bought without buy-in drains builder energy."
         },
         {
-          text: "Propose a 2-week customer validation sprint before giving the investor a final answer.",
-          trust: 8,
-          val: 10,
+          text: "Run a 2-week B2B buyer test before deciding.",
+          trust: 2,
+          val: 4,
           avoided: null,
           tag: "Evidence-Led",
-          alexQuote: "Testing demand with real users first? That's fair—let's let the market decide, not just one check.",
-          feedback: "The angel respects your discipline and leaves a smaller $40k option open. You and Alex evaluate the pivot together using real user data.",
-          lesson: "Replacing ego battles with small, fast experiments turns ideological founder disagreements into shared learning."
+          alexQuote: "Letting real buyers decide beats arguing hypotheticals.",
+          feedback: "The angel trims the offer to $40k, but you decide on data.",
+          lesson: "Small tests turn founder clashes into shared evidence."
         },
         {
-          text: "Turn down the $100,000 and stay committed to your original vision.",
-          trust: 15,
-          val: -5,
+          text: "Pass on the $100k and stick to your original market.",
+          trust: 4,
+          val: -3,
           avoided: null,
           tag: "Vision-First",
-          alexQuote: "Thank you for having our back. Now let's prove our original users will pay.",
-          feedback: "Cash stays tight, slowing immediate valuation growth, but standing fast together reinforces deep co-founder solidarity.",
-          lesson: "Saying no to misaligned money protects team conviction—as long as you pair conviction with relentless customer traction."
+          alexQuote: "Glad you backed our vision—now we must prove traction.",
+          feedback: "Conviction stays high, though cash gets tight.",
+          lesson: "Passing on misaligned cash raises pressure to monetize."
         }
       ]
     },
     {
       id: "m4",
       shortLabel: "M4",
-      month: "Month 4: The Pilot Customer & Role Creep",
-      chapter: "Boundaries & Early Traction",
+      month: "Month 4: Overpromised Pilot",
+      chapter: "Crisis: Scope & Margin",
       getContextNote: (s) => {
         if (s.forcedPivot) {
-          return "Pivot Aftershock: Shifting into enterprise compliance brought complex custom demands Alex didn't anticipate.";
+          return "Pivot strain: Enterprise buyers demand heavy custom work.";
         }
         if (s.roleClarity) {
-          return "Month 1 Charter Active: Your written role split makes it easier to separate technical scoping from commercial pricing.";
+          return "Month 1 role charter helps clarify commercial boundaries.";
         }
         return null;
       },
-      text: "Your first paying pilot customer emails Alex directly asking for a custom integration and a 50% discount. Without looping you in, Alex replies promising to build it by Friday for half price just to land the logo.",
+      text: "To land your first customer, Alex promised custom features at 50% off by Friday—without asking you. The build is behind.",
       getChoices: (s) => [
         {
-          text: "Honor Friday's deliverable together, then set a clear rule that pricing and scope need both founders' sign-off.",
-          trust: 10 + (s.roleClarity ? 4 : 0),
-          val: 10,
+          text: "Crunch all week together to deliver Friday at 50% off.",
+          trust: -2 + (s.roleClarity ? 3 : 0),
+          val: -2,
           avoided: null,
           tag: "Constructive",
-          alexQuote: "Fair—I got excited to close our first logo. Next time I'll hand pricing straight to you.",
-          feedback:
-            "You protect the customer relationship while reinforcing healthy commercial boundaries with Alex." +
-            (s.roleClarity ? " (Your Month 1 role agreement makes the reset quick and painless.)" : ""),
-          lesson: "Correct boundary crossings without punishing initiative—turn one-off mistakes into clear operating rules."
+          alexQuote: "Rough week—next time pricing goes through you first.",
+          feedback: "You save the client, though bad margin and crunch sting.",
+          lesson: "Absorb early mistakes together, then tighten pricing rules."
         },
         {
-          text: "Email the customer privately to revoke Alex's 50% discount and tell Alex afterward.",
-          trust: -22,
+          text: "Call the client together and push delivery back a week.",
+          trust: 1,
           val: -4,
-          avoided: "Undercut co-founder on pilot pricing (Month 4)",
-          tag: "Undermining",
-          alexQuote: "You contradicted me in writing to our very first paying user? That made both of us look amateur.",
-          feedback: "Reversing Alex's promise behind his back humiliates him in front of the customer and fractures internal trust.",
-          lesson: "Never contradict your co-founder externally—align privately first, then present one unified company voice."
-        },
-        {
-          text: "Say nothing to keep the peace and quietly scramble your financial projections around the 50% discount.",
-          trust: -8,
-          val: -6,
-          avoided: "Unaddressed role & pricing boundary cross (Month 4)",
-          tag: "Avoidant",
-          alexQuote: "Awesome, glad we landed them! I'll keep offering pilot discounts if it closes deals faster.",
-          feedback: "You dodge an awkward conversation today, but leaving pricing discipline unaddressed hurts margins and invites repeat overlap.",
-          lesson: "Unspoken role creep compounds quickly—early customers anchor on whatever sloppy precedents you allow."
-        },
-        {
-          text: "Invite Alex onto a joint call with the customer: you lead pricing & value while Alex scopes engineering effort.",
-          trust: 12,
-          val: 14,
           avoided: null,
           tag: "Collaborative",
-          alexQuote: "Seeing how you anchored value instead of discounting saved our margin—great teamwork.",
-          feedback: "By pairing up live, you convert a half-price custom rush into a properly scoped pilot at full value.",
-          lesson: "Co-founders are strongest when commercial framing and technical scoping operate as a visible tag team."
+          alexQuote: "Glad we owned the delay together instead of blaming me.",
+          feedback: "Honest reset protects quality, but dings early momentum.",
+          lesson: "Unified external communication protects internal trust."
+        },
+        {
+          text: "Tell the client custom scope requires full price.",
+          trust: -9,
+          val: 5,
+          avoided: "Walked back Alex's pilot quote (M4)",
+          tag: "Undermining",
+          alexQuote: "Walking back my word made us look split to client one.",
+          feedback: "Margins recover, but reversing Alex's quote undercuts him.",
+          lesson: "Contradicting a co-founder externally breeds resentment."
+        },
+        {
+          text: "Leave Alex to finish the build while you pitch new leads.",
+          trust: -6,
+          val: 2,
+          avoided: "Unaddressed pricing creep (M4)",
+          tag: "Avoidant",
+          alexQuote: "Guess I'm eating this deadline alone.",
+          feedback: "Sales keep moving while Alex burns out on half-price work.",
+          lesson: "Ignoring role creep guarantees repeat pricing mistakes."
         }
       ]
     },
     {
       id: "m5",
       shortLabel: "M5",
-      month: "Month 5: The Unannounced Hire",
-      chapter: "Governance & Boundaries",
+      month: "Month 5: Unapproved Equity",
+      chapter: "Governance",
       getContextNote: (s) =>
         s.equitySplitType === "postponed"
-          ? "Compounded Tension: Because you postponed your own equity split in Month 2, Alex assumes cap-table promises are informal."
+          ? "M2 hangover: Informal founder equity makes cap-table rules blurry."
           : null,
-      text: "You walk into the workspace on Monday morning and find a stranger at the spare desk. Alex invited a friend to help with marketing 10 hours a week—and promised her 2% equity without consulting you first.",
+      text: "Alex brought a friend in for part-time marketing and casually promised her 2% equity without consulting you.",
       getChoices: (s) => {
-        const extraPenalty = s.equitySplitType === "postponed" ? -8 : 0;
+        const extraPenalty = s.equitySplitType === "postponed" ? -4 : 0;
         return [
           {
-            text: "Welcome her warmly and say nothing about the 2% equity promise for now.",
-            trust: -6 + extraPenalty,
-            val: 4,
-            avoided: "Unapproved 2% equity promise to friend (Month 5)",
-            tag: "Avoidant",
-            alexQuote: "Awesome, glad you're cool with it. I'll loop you in next time—maybe.",
-            feedback:
-              "You keep the peace in the room, but silently accepting unauthorized equity handouts sets a dangerous governance precedent." +
-              (extraPenalty ? " (Your unresolved Month 2 equity makes the cap table even messier.)" : ""),
-            lesson: "What you tolerate silently becomes your company's operating standard."
-          },
-          {
-            text: "Confront Alex right in front of her, stating he had no authority to give away equity.",
-            trust: -25 + extraPenalty,
-            val: -6,
-            avoided: null,
-            tag: "Public Clash",
-            alexQuote: "Really? In front of her? You could have pulled me aside for two minutes.",
-            feedback: "Publicly undermining your co-founder destroys psychological safety and embarrasses a potential team member.",
-            lesson: "Praise in public, resolve governance conflicts in private—united leadership matters even during disagreement."
-          },
-          {
-            text: "Welcome her politely, then meet Alex privately to set clear cap-table approval rules.",
-            trust: 15,
-            val: 10,
-            avoided: null,
-            tag: "Principled",
-            alexQuote: "You're right—I jumped the gun. Let's agree on a written rule before offering any equity.",
-            feedback: "Textbook founder leadership. You protect morale in the room while establishing firm governance boundaries behind closed doors.",
-            lesson: "Strong partnerships pair high empathy with explicit decision-rights and cap-table discipline."
-          },
-          {
-            text: "Keep her on board, but renegotiate her compensation as a small cash stipend instead of equity.",
-            trust: 6,
-            val: 6,
+            text: "Switch her offer to a small monthly cash stipend.",
+            trust: 1,
+            val: -2,
             avoided: null,
             tag: "Pragmatic",
-            alexQuote: "Fair compromise—she actually prefers predictable cash right now anyway.",
-            feedback: "A practical fix that protects the cap table while respecting Alex's initiative to get marketing help.",
-            lesson: "Protecting equity early preserves room for full-time hires and future seed investors."
+            alexQuote: "Fair—cash trims runway, but saves our equity pool.",
+            feedback: "Cap table stays clean, though monthly burn ticks up.",
+            lesson: "Cash is replaceable; early dead equity is permanent."
+          },
+          {
+            text: "Cap it at 0.5% advisor shares with a 2-year cliff.",
+            trust: 3,
+            val: 3,
+            avoided: null,
+            tag: "Principled",
+            alexQuote: "Good middle ground—no more solo equity promises.",
+            feedback: "Structured compromise sets a clear two-signature equity rule.",
+            lesson: "Every equity grant needs joint sign-off and vesting."
+          },
+          {
+            text: "Veto the hire privately and have Alex withdraw the offer.",
+            trust: -8 + extraPenalty,
+            val: 4,
+            avoided: null,
+            tag: "Top-Down",
+            alexQuote: "Taking that offer back made me look awful.",
+            feedback: "Zero dilution or spend, but Alex loses face with his friend.",
+            lesson: "Hard vetoes protect discipline at a steep personal cost."
+          },
+          {
+            text: "Let her help through beta and paper the terms later.",
+            trust: -3 + extraPenalty,
+            val: 2,
+            avoided: "Informal 2% equity promise (M5)",
+            tag: "Avoidant",
+            alexQuote: "Cool, we'll sort the paperwork once beta lands.",
+            feedback: "Marketing starts fast, leaving a messy cap-table claim.",
+            lesson: "Vague equity promises turn into diligence nightmares."
           }
         ];
       }
@@ -1031,70 +1027,70 @@
     {
       id: "m6",
       shortLabel: "M6",
-      month: "Month 6: Pre-Beta Crunch & Sync",
-      chapter: "Execution Under Stress",
+      month: "Month 6: Beta Outage",
+      chapter: "Crisis: Launch Week",
       getContextNote: (s) =>
         s.avoidedIssues.length > 0
-          ? `Unresolved Debt (${s.avoidedIssues.length}): Tension is sitting in the room ahead of your beta launch. You can spend sprint time to clear the air.`
-          : "Smooth Sailing So Far: With zero relational debt, you can focus cleanly on your beta launch strategy.",
-      text: "Your private beta goes live in 48 hours, but a critical onboarding bug just surfaced. Meanwhile, friction from the past few months is palpable in how fast—or curtly—you two reply to each other.",
+          ? `${s.avoidedIssues.length} unresolved issue(s) are straining launch week.`
+          : "Zero relational debt keeps communication calm under fire.",
+      text: "48 hours before public beta, a severe data bug surfaces. 200 testers and two angels expect Friday's launch.",
       getChoices: (s) => {
         const list = [
           {
-            text: "Cut non-essential features together and ship a stable, narrower beta on time.",
-            trust: 10,
-            val: 12,
+            text: "Cut half the features and ship a minimal beta Friday.",
+            trust: -2,
+            val: -2,
             avoided: null,
             tag: "Scope Control",
-            alexQuote: "Cutting the dashboard widgets saves me 18 hours. Let's ship what actually works.",
-            feedback: "By jointly cutting scope instead of pointing fingers, you hit your beta date with a clean core flow.",
-            lesson: "Co-founders who de-scope together under pressure turn crunch time into a trust-building win."
+            alexQuote: "Hurts cutting features I built, but at least it won't crash.",
+            feedback: "You hit Friday intact, though the thin beta underwhelms.",
+            lesson: "Under-scoped beats broken, even when both hurt."
           },
           {
-            text: "Demand Alex pull two all-nighters to fix everything before launch without cutting scope.",
-            trust: -18,
-            val: 5,
-            avoided: "Resentment over forced beta crunch (Month 6)",
+            text: "Push a 48-hour all-nighter crunch to ship full scope.",
+            trust: -9,
+            val: 6,
+            avoided: "Beta crunch resentment (M6)",
             tag: "Top-Down",
-            alexQuote: "Easy to promise the world when you aren't the one debugging at 3 a.m.",
-            feedback: "The full feature set ships, but Alex feels treated like an employee rather than a partner.",
-            lesson: "Treating a technical co-founder like a code factory erodes ownership and invites burnout."
+            alexQuote: "It shipped—don't ask me for another weekend like that.",
+            feedback: "Angels love the full demo; Alex is running on fumes.",
+            lesson: "Repeated heroics burn out technical co-founders."
           },
           {
-            text: "Delay the beta silently on your own email list without aligning with Alex first.",
-            trust: -12,
-            val: -8,
+            text: "Slip launch by 10 days to fix everything properly.",
+            trust: 1,
+            val: -4,
             avoided: null,
-            tag: "Unilateral",
-            alexQuote: "Wait—you told users we delayed after I worked all weekend? Why didn't you ping me?",
-            feedback: "Unilateral external communication makes both of you look disorganized and wastes Alex's sprint effort.",
-            lesson: "Never surprise your co-founder with external commitments or schedule changes."
+            tag: "Cautious",
+            alexQuote: "Thanks for giving me breathing room to fix it right.",
+            feedback: "Engineering stays sane, though waitlist momentum cools.",
+            lesson: "Protecting quality sometimes costs market momentum."
           }
         ];
 
         if (s.avoidedIssues.length > 0) {
           list.unshift({
-            text: `Hold a candid "Clear the Air" retro to resolve "${s.avoidedIssues[0]}" before beta.`,
-            trust: 14,
-            val: -3,
+            text: "Delay beta a week to fix the bug and clear past tension.",
+            trust: 6,
+            val: -4,
             clearsDebt: true,
             isRepair: true,
             avoided: null,
             tag: "Debt Repair",
-            alexQuote: "I'm really glad you brought that up. It's been bugging me for weeks—thanks for clearing the air.",
-            feedback: "Delaying two sprint days trims short-term momentum (-$30k), but addressing the elephant in the room removes an avoided issue and restores deep trust.",
-            lesson: "Paying down relational debt costs short-term speed, yet prevents catastrophic mid-stage blowups."
+            alexQuote: "Glad we finally talked that out before going live.",
+            feedback: "Slipping launch cools hype, but heals buried friction.",
+            lesson: "Paying down relational debt costs speed to save the team."
           });
         } else {
           list.push({
-            text: "Run a quick 30-minute pre-beta alignment check to confirm roles for launch week.",
-            trust: 8,
-            val: 6,
+            text: "Roll out core flow to 25 testers; gate the rest.",
+            trust: 2,
+            val: 3,
             avoided: null,
             tag: "Proactive Sync",
-            alexQuote: "Love how cleanly we're operating—I've got infra, you've got user onboarding.",
-            feedback: "Because you have no backlog of unspoken conflict, a crisp sync boosts both execution and team confidence.",
-            lesson: "Proactive alignment rituals prevent small misunderstandings from turning into relational debt."
+            alexQuote: "Clean plan—small cohort first keeps risk contained.",
+            feedback: "High trust lets you run a calm staged rollout.",
+            lesson: "Aligned teams find steady middle paths during crises."
           });
         }
 
@@ -1104,260 +1100,260 @@
     {
       id: "m7",
       shortLabel: "M7",
-      month: "Month 7: Missed Deadlines",
-      chapter: "Commitment & Empathy",
+      month: "Month 7: Runway & Side Gig",
+      chapter: "Crisis: Burnout",
       getContextNote: (s) =>
         s.forcedPivot
-          ? "Pivot Aftermath: Alex has seemed noticeably less energized since the Month 3 compliance pivot."
+          ? "Alex's energy has lagged since the Month 3 pivot."
           : null,
-      text: "To pay rent, Alex quietly took a part-time consulting gig. Over the past three weeks he has missed product deadlines, leaving you working until midnight to cover customer commitments. Neither of you has brought it up yet.",
+      text: "Short on rent, Alex quietly took freelance work and missed two product sprints while you covered late-night support.",
       getChoices: (s) => [
         {
-          text: "Say nothing and keep quietly covering his missed tasks.",
-          trust: -10,
-          val: -6,
-          avoided: "Silent burnout covering missed deadlines (Month 7)",
-          tag: "Martyrdom",
-          alexQuote: "Thanks for picking up those tickets... sorry things have been hectic.",
-          feedback: "Avoiding confrontation breeds deep internal resentment and exhaustion while leaving Alex's cash crunch unsolved.",
-          lesson: "Silent heroics aren't noble—they mask systemic capacity problems until one founder snaps."
-        },
-        {
-          text: "Tell Alex that if he can't commit full-time, maybe he shouldn't be a co-founder.",
-          trust: -30,
-          val: -10,
-          avoided: null,
-          tag: "Ultimatum",
-          alexQuote: "I'm literally trying not to get evicted. If that makes me 'uncommitted,' maybe we're done.",
-          feedback: "Delivering an ultimatum while he's under financial stress triggers extreme defensiveness and pushes the partnership to the brink.",
-          lesson: "Leading with accusation instead of curiosity turns solvable logistics problems into existential threats."
-        },
-        {
-          text: "Sit down empathetically and recalibrate weekly hours and realistic sprint ownership.",
-          trust: 15 + (s.forcedPivot ? 4 : 0),
-          val: 8,
-          avoided: null,
-          tag: "Empathetic",
-          alexQuote: "I felt awful hiding it. Having clear 20-hour deliverables means I can actually hit every deadline.",
-          feedback: "Transparent scope-setting eliminates surprise misses and rebuilds mutual respect around real-life constraints.",
-          lesson: "Sustainable startup velocity comes from honest capacity planning, not guilt-driven guesswork."
-        },
-        {
-          text: "Propose paying both founders a modest survival stipend from company funds so Alex can drop the side gig.",
-          trust: 14,
-          val: 6,
+          text: "Pay modest founder stipends from runway to end freelancing.",
+          trust: 2,
+          val: -4,
           avoided: null,
           tag: "Structural Fix",
-          alexQuote: "Even a bare-minimum stipend covers my rent—I'm 100% back on the product starting Monday.",
-          feedback: "Using capital to buy back your co-founder's full focus solves the root financial cause and restores product velocity.",
-          lesson: "Protecting founder survival needs is a high-ROI use of early capital."
+          alexQuote: "Bare rent covered means I'm 100% back on product.",
+          feedback: "Alex returns full-time, though shorter runway tightens pressure.",
+          lesson: "Survival stipends trade cash runway for focus."
+        },
+        {
+          text: "Allow 10 freelance hours weekly and cut sprint scope 30%.",
+          trust: 2 + (s.forcedPivot ? 2 : 0),
+          val: -3,
+          avoided: null,
+          tag: "Empathetic",
+          alexQuote: "Relief—now I can hit every target we commit to.",
+          feedback: "Honest capacity stops missed deadlines, though growth slows.",
+          lesson: "Realistic velocity beats unspoken missed deadlines."
+        },
+        {
+          text: "Insist on full-time focus for 60 days until Seed pitches.",
+          trust: -9,
+          val: 5,
+          avoided: null,
+          tag: "Ultimatum",
+          alexQuote: "Easy to demand full-time when your rent isn't overdue.",
+          feedback: "Product pace rebounds, leaving Alex under financial strain.",
+          lesson: "Ignoring a partner's personal runway breeds resentment."
+        },
+        {
+          text: "Keep covering extra support yourself until revenue grows.",
+          trust: -6,
+          val: 1,
+          avoided: "Burnout from uneven workload (M7)",
+          tag: "Martyrdom",
+          alexQuote: "Appreciate you covering tickets while I catch up...",
+          feedback: "No fight today, but exhaustion and resentment build fast.",
+          lesson: "Silent martyrdom masks capacity gaps until someone snaps."
         }
       ]
     },
     {
       id: "m8",
       shortLabel: "M8",
-      month: "Month 8: The Enterprise Whale Request",
-      chapter: "Product Focus vs. Revenue",
-      text: "A large enterprise prospect offers $15,000 upfront—but only if you build a bespoke reporting module for them this month. Alex warns that custom one-off code will derail your core roadmap by six weeks right as you're recovering from last month's crunch.",
+      month: "Month 8: $25k Custom Deal",
+      chapter: "Revenue vs. Roadmap",
+      text: "A corporate buyer offers $25k upfront—if you pause your roadmap a month to build their custom dashboard.",
       getChoices: () => [
         {
-          text: "Sit down with Alex to check if a lean 20% version can serve all users before replying to the prospect.",
-          trust: 12,
-          val: 12,
+          text: "Take the $25k and divert the sprint to custom code.",
+          trust: -8,
+          val: 8,
+          avoided: "Detoured roadmap for custom deal (M8)",
+          tag: "Short-Term Cash",
+          alexQuote: "Feels like we just became an agency for one buyer.",
+          feedback: "Bank balance jumps while core product stalls a month.",
+          lesson: "Bespoke revenue extends runway while taxing focus."
+        },
+        {
+          text: "Offer only the reusable reporting half for $12k.",
+          trust: 2,
+          val: 5,
           avoided: null,
           tag: "Disciplined",
-          alexQuote: "Finding the overlap that helps every user instead of building custom spaghetti? Count me in.",
-          feedback: "You evaluate the deal together through product strategy, turning a risky one-off ask into a reusable feature.",
-          lesson: "Great startups extract generalizable product insights from big customer asks instead of becoming a consulting shop."
+          alexQuote: "Smart filter—that view upgrades the whole product.",
+          feedback: "Smaller check, but every line of code serves all users.",
+          lesson: "Bend customer requests toward your shared roadmap."
         },
         {
-          text: "Decline the bespoke build together and pitch them your standard product with an early-adopter discount.",
-          trust: 10,
-          val: 6,
+          text: "Decline the deal to keep 100% focus on self-serve growth.",
+          trust: 3,
+          val: -3,
           avoided: null,
           tag: "Focused",
-          alexQuote: "Saying no to $15k hurts today, but our core roadmap stays intact.",
-          feedback: "You turn down distracting cash to protect engineering sanity and product focus.",
-          lesson: "Early focus is defined as much by the revenue you turn down as the deals you close."
+          alexQuote: "Hard passing on cash, but our core release stays on track.",
+          feedback: "Roadmap stays pure, though turning down $25k stings.",
+          lesson: "Saying no to off-strategy cash tests runway nerves."
         },
         {
-          text: "Sign the $15,000 contract anyway and tell Alex to hack it together now and refactor later.",
-          trust: -16,
-          val: 14,
-          avoided: "Forced custom consulting build against roadmap (Month 8)",
-          tag: "Short-Term Cash",
-          alexQuote: "Great—another six weeks of one-off code that nobody else will ever use.",
-          feedback: "Short-term revenue bumps valuation, but overriding Alex's roadmap warning breeds technical debt and frustration.",
-          lesson: "Trading product focus for custom cash traps technical teams in unscalable maintenance."
-        },
-        {
-          text: "Avoid the call—let the prospect's emails go cold instead of aligning with Alex on a clear yes or no.",
-          trust: -6,
-          val: -8,
-          avoided: "Stalled enterprise prospect without clear decision (Month 8)",
-          tag: "Avoidant",
-          alexQuote: "Did we ever reply to them, or are we just ghosting a $15k lead?",
-          feedback: "Indecision wastes both a commercial opportunity and internal clarity.",
-          lesson: "A fast, aligned 'no' beats drifting in ambiguity."
+          text: "Sign the $25k deal and outsource the custom build.",
+          trust: -5,
+          val: 3,
+          avoided: null,
+          tag: "Pragmatic",
+          alexQuote: "Fixing rushed contractor code took longer than building it.",
+          feedback: "Margin shrinks and Alex gets stuck debugging contractor work.",
+          lesson: "Outsourcing core integrations rarely saves founder time."
         }
       ]
     },
     {
       id: "m9",
       shortLabel: "M9",
-      month: "Month 9: The 50,000 kr Student Grant",
-      chapter: "Resource Allocation",
-      text: "Great news: your startup just won a 50,000 kr innovation grant! Alex wants to put 20,000 kr toward a splashy launch event and a proper office. You believe every krone should extend runway and hire a contract developer. You must decide this week.",
+      month: "Month 9: Tight Grant Budget",
+      chapter: "Crisis: Cash Squeeze",
+      text: "You win a 50,000 kr grant, but overdue cloud and legal bills eat half. Alex wants a conference booth; you want QA.",
       getChoices: () => [
         {
-          text: "Give in and let Alex spend the 20,000 kr his way to avoid another argument.",
-          trust: -6,
-          val: -10,
-          avoided: "Resentment over grant spending on office/event (Month 9)",
-          tag: "Appeasement",
-          alexQuote: "Great, I'll book the venue today. Looks like we're finally leveling up.",
-          feedback: "You avoid an argument today, but watching scarce runway burn on perks erodes your confidence in Alex's judgment.",
-          lesson: "Appeasement trades short-term harmony for long-term strategic doubt."
-        },
-        {
-          text: "Wire the grant funds to a contract developer right away before Alex can object.",
-          trust: -35,
-          val: 10,
-          avoided: null,
-          tag: "Breach",
-          alexQuote: "You spent the grant behind my back? We're supposed to be co-founders, not adversaries.",
-          feedback: "Unilaterally spending shared company capital behind your partner's back is a severe breach of fiduciary and personal trust.",
-          lesson: "Even the 'right' business spend becomes destructive if executed through betrayal."
-        },
-        {
-          text: "Put both budgets side-by-side and score each against your 6-month Seed milestones.",
-          trust: 15,
-          val: 18,
+          text: "Clear the overdue bills first; split the small remainder.",
+          trust: -2,
+          val: 4,
           avoided: null,
           tag: "Goal-Anchored",
-          alexQuote: "Looking at our Seed metrics, a contract dev actually gets us to 500 users way faster. Let's do it.",
-          feedback: "Depersonalizing the debate and anchoring on objective 6-month milestones produces both strong alignment and maximum valuation impact.",
-          lesson: "Great co-founders argue against shared goals, not against each other."
+          alexQuote: "Responsible call, even if killing the booth hurts.",
+          feedback: "Books are clean for Seed, though both growth pushes stall.",
+          lesson: "Clean fundamentals aren't flashy, but pass diligence."
         },
         {
-          text: "Propose a disciplined split: 5,000 kr for a lean community demo night and 45,000 kr for engineering.",
-          trust: 10,
-          val: 14,
+          text: "Pay bills and spend the rest on QA stability.",
+          trust: -6,
+          val: 6,
+          avoided: null,
+          tag: "Top-Down",
+          alexQuote: "Solid code won't matter if nobody hears about us.",
+          feedback: "Stability improves, leaving Alex frustrated over visibility.",
+          lesson: "Overruling a partner's budget priority taxes goodwill."
+        },
+        {
+          text: "Pay bills and fund Alex's booth to chase leads.",
+          trust: 2,
+          val: -3,
           avoided: null,
           tag: "Compromise",
-          alexQuote: "5,000 kr is plenty for pizza and a demo—and we still get the developer.",
-          feedback: "A creative compromise that honors Alex's desire for visibility while protecting core engineering runway.",
-          lesson: "Creative constraints often unlock the 'third option' that satisfies both founders' underlying needs."
+          alexQuote: "Thanks for backing the booth—bugs bit us a little though.",
+          feedback: "Alex rallies hard, though unfixed bugs hurt demo signups.",
+          lesson: "Marketing amplifies product readiness—good or bad."
+        },
+        {
+          text: "Defer legal bills to fund both QA and the booth.",
+          trust: 2,
+          val: 4,
+          avoided: "Deferred legal cleanup before Seed (M9)",
+          tag: "Appeasement",
+          alexQuote: "Nice—we get both! Lawyers can wait till Seed closes.",
+          feedback: "Both founders get budget today, leaving legal loose ends.",
+          lesson: "Pushing legal debt into fundraising creates diligence traps."
         }
       ]
     },
     {
       id: "m10",
       shortLabel: "M10",
-      month: "Month 10: The Investor's Backchannel",
-      chapter: "Loyalty & Power",
-      text: "After a pitch practice, an influential angel pulls you aside in the hallway: 'Your traction is solid, but Alex seems stretched thin. If you take 70% voting control and demote him to Lead Dev, I'll write a $150k check tomorrow.'",
+      month: "Month 10: Control Term Sheet",
+      chapter: "Loyalty vs. Leverage",
+      text: "An angel offers a $150k bridge check—only if you take sole voting control and move Alex off the board.",
       getChoices: () => [
         {
-          text: "Reject the side-deal immediately and tell Alex transparently what the investor proposed.",
-          trust: 16,
-          val: -4,
-          avoided: null,
-          tag: "Fierce Loyalty",
-          alexQuote: "Thank you for telling me straight up. Knowing you won't sell me out makes me want to run through walls for this company.",
-          feedback: "You turn down quick conditional cash, forging unshakeable co-founder trust that seasoned Seed VCs immediately notice.",
-          lesson: "Investors who try to divide co-founders before investing create toxic boards; loyalty under temptation cements true partnership."
-        },
-        {
-          text: "Keep the conversation secret and quietly explore the angel's voting-control terms.",
-          trust: -32,
-          val: 16,
-          avoided: "Secretly negotiating co-founder demotion with angel (Month 10)",
+          text: "Take the $150k and frame sole control as investor-standard.",
+          trust: -13,
+          val: 10,
+          avoided: "Took sole board control (M10)",
           tag: "Backchannel",
-          alexQuote: "Why have you been taking private calls with that angel all week?",
-          feedback: "Valuation ticks up on paper from investor interest, but covertly plotting against your partner poisons the core of the company.",
-          lesson: "Backchanneling your co-founder almost always leaks during due diligence—and destroys the team from inside."
+          alexQuote: "You traded my voice on the board for bridge money.",
+          feedback: "Bridge cash lands, but stripping Alex's seat fractures trust.",
+          lesson: "Investor side-deals permanently scar co-founder trust."
         },
         {
-          text: "Tell the angel you only make governance decisions together, then debrief the feedback openly with Alex.",
-          trust: 12,
-          val: 12,
+          text: "Counter with joint board seats for a smaller $60k check.",
+          trust: 3,
+          val: 4,
           avoided: null,
           tag: "Constructive",
-          alexQuote: "Ouch—fair feedback though. Let's sharpen my investor pitch presence before Seed Week.",
-          feedback: "You protect the partnership while turning harsh investor feedback into a concrete growth plan for both of you.",
-          lesson: "Filtering external criticism through a united team turns investor pressure into founder growth."
+          alexQuote: "Taking less cash to keep us equal means everything.",
+          feedback: "Smaller cushion, but you enter Seed aligned as equals.",
+          lesson: "Balanced governance beats maximizing bridge cash."
+        },
+        {
+          text: "Reject the check outright and share the story with Alex.",
+          trust: 3,
+          val: -3,
+          avoided: null,
+          tag: "Fierce Loyalty",
+          alexQuote: "Thank you—now we have six weeks to close Seed.",
+          feedback: "Deep loyalty, though passing on $150k leaves zero cushion.",
+          lesson: "Walking away from toxic money raises execution stakes."
         }
       ]
     },
     {
       id: "m11",
       shortLabel: "M11",
-      month: "Month 11: Seed Deck & Title Friction",
-      chapter: "Recognition & Readiness",
+      month: "Month 11: Runway & Deck Credit",
+      chapter: "Crisis: Pre-Seed Crunch",
       getContextNote: (s) =>
         s.avoidedIssues.length > 0
-          ? `Last Chance Before Due Diligence: You still have ${s.avoidedIssues.length} unresolved issue(s) sitting below the surface.`
-          : "Pre-Seed Momentum: Your team alignment is clean heading into final investor meetings.",
-      text: "Four weeks before Seed partner meetings, Alex opens the shared investor deck and sees himself listed as 'Technical Lead' while your slide bio reads 'Solo Visionary & CEO.' Exhausted from a brutal year, he asks quietly whether you still view him as an equal partner.",
+          ? `Final chance before diligence: ${s.avoidedIssues.length} unresolved issue(s) remain.`
+          : "Clean alignment keeps you focused heading into Seed pitches.",
+      text: "Six weeks of cash left. Advisors want one boss on the deck—seeing 'Engineering Lead' instead of 'Co-Founder' stung Alex.",
       getChoices: (s) => {
         const list = [
           {
-            text: "Update the deck immediately to 'Co-Founders' with shared credit and co-present the Seed narrative together.",
-            trust: 12,
-            val: 10,
+            text: "List equal Co-Founder titles and split every VC pitch 50/50.",
+            trust: 3,
+            val: 1,
             avoided: null,
             tag: "Shared Credit",
-            alexQuote: "Seeing both our names on the cover slide as equals brings my energy right back for Seed Week.",
-            feedback: "You validate Alex's sacrifices publicly in the pitch deck and project a unified founding front to Seed investors.",
-            lesson: "Recognition costs zero cash and zero equity, yet withholding it destroys co-founder pride faster than almost anything."
+            alexQuote: "Standing on stage as true equals brings my fire back.",
+            feedback: "Alex feels proud, though traditional VCs question dual command.",
+            lesson: "Shared recognition fuels grit through fundraising."
           },
           {
-            text: "Keep the 'CEO / Technical Lead' framing—say VCs want a single clear boss, without discussing his burnout.",
-            trust: -16,
-            val: 4,
-            avoided: "Dismissed co-founder title & recognition concerns (Month 11)",
+            text: "Keep CEO-led deck framing, with Alex owning technical Q&A.",
+            trust: -5,
+            val: 5,
+            avoided: "Sidelined co-founder title concern (M11)",
             tag: "Avoidant",
-            alexQuote: "Fine. Leave the slide as-is. Just don't expect me to fake enthusiasm in Q&A.",
-            feedback: "Investors see a clear org chart, but Alex enters Seed Week feeling sidelined and demoted right before diligence.",
-            lesson: "Clear leadership roles never require erasing a co-founder's status—title friction right before fundraising often explodes in partner meetings."
+            alexQuote: "Fine, pitch it your way—I'll just answer tech questions.",
+            feedback: "Crisp investor story, while Alex enters Q&A feeling demoted.",
+            lesson: "Sidelining a co-founder before diligence shows in the room."
           },
           {
-            text: "Suggest entertaining a quiet $350k acqui-hire offer instead of risking Seed if Alex feels worn out.",
-            trust: -8,
-            val: -12,
+            text: "Quietly explore a $350k acqui-hire backup in parallel.",
+            trust: -5,
+            val: -3,
             avoided: null,
             tag: "Cold Feet",
-            alexQuote: "Wait—after everything we survived this year, you want to cash out for salaries right before the finish line?",
-            feedback: "Floating an exit out of nowhere spooks Alex and signals wavering conviction right when investors look for grit.",
-            lesson: "Don't confuse founder exhaustion with wanting to quit—solve burnout with recognition and support, not a premature exit."
+            alexQuote: "Shopping an acqui-hire makes it sound like we've given up.",
+            feedback: "Splitting focus weakens your Seed pitch and rattles Alex.",
+            lesson: "Fundraising while hedging an exit signals weak conviction."
           }
         ];
 
         if (s.avoidedIssues.length > 0) {
           list.unshift({
-            text: `Fix the deck credit AND run a candid pre-Seed reset to resolve "${s.avoidedIssues[0]}" before VCs dig in.`,
-            trust: 14,
-            val: -2,
+            text: "Restore Co-Founder titles and pause pitches 4 days to reset.",
+            trust: 6,
+            val: -3,
             clearsDebt: true,
             isRepair: true,
             avoided: null,
             tag: "Debt Repair",
-            alexQuote: "Clearing the air before we walk into Sand Hill—or local VCs—makes me actually trust we're ready.",
-            feedback: "You trade two prep days (-$20k momentum) to fix the deck recognition and finally resolve an old lingering conflict before due diligence.",
-            lesson: "Cleaning up relational debt before fundraising prevents investors from discovering cracks during reference checks."
+            alexQuote: "Clearing the air first makes us stronger in partner rooms.",
+            feedback: "Lost pitch days slow momentum, but heal old scars before Q&A.",
+            lesson: "Resolve internal cracks before VCs probe them."
           });
         } else {
           list.push({
-            text: "Pair the updated Co-Founder slide with a joint mock VC Q&A so both of you shine on stage.",
-            trust: 8,
-            val: 12,
+            text: "Keep Co-Founder titles with sharp CEO/CTO decision lanes.",
+            trust: 2,
+            val: 5,
             avoided: null,
             tag: "Prepared",
-            alexQuote: "Practicing tough investor questions together makes us sound ten times sharper.",
-            feedback: "Because your foundation is clean, joint pitch prep sharpens both your chemistry and your valuation story.",
-            lesson: "Rehearsing hard questions together turns two individual founders into an investable team."
+            alexQuote: "Equal founders, clear lanes—let's go close this round.",
+            feedback: "Equal credit plus clear lanes satisfies both Alex and VCs.",
+            lesson: "Clear CEO/CTO lanes work best on equal footing."
           });
         }
 
@@ -1367,43 +1363,43 @@
     {
       id: "m12",
       shortLabel: "M12",
-      month: "Month 12: Seed Round Due Diligence",
-      chapter: "The Final Pitch",
+      month: "Month 12: Seed Partner Grill",
+      chapter: "Final Diligence",
       getContextNote: (s) =>
         s.avoidedIssues.length >= 2
-          ? "Due Diligence Warning: Partners at the Seed fund sense unspoken tension between you and Alex during Q&A."
-          : "Strong Signal: Investors note how effortlessly you and Alex finish each other's thoughts.",
-      text: "It's final partner meeting day for your Seed Round. The lead VC asks a sharp question: 'What is the biggest disagreement you two have had this year, and how did you resolve it?'",
+          ? "Diligence warning: Partners sense tension between you two."
+          : "Strong signal: Partners notice your calm chemistry.",
+      text: "Final Seed partner meeting. Lead VC asks: 'What was your hardest clash this year, and what changed afterward?'",
       getChoices: (s) => [
         {
-          text: "Share an honest story of a real conflict, how you worked through it, and what governance rules came out of it.",
-          trust: s.avoidedIssues.length >= 2 ? 4 : 10,
-          val: s.avoidedIssues.length >= 2 ? 6 : 16,
+          text: "Share a real clash candidly and the rule it created.",
+          trust: s.avoidedIssues.length >= 2 ? 0 : 2,
+          val: s.avoidedIssues.length >= 2 ? 2 : 6,
           avoided: null,
           tag: "Authentic",
-          alexQuote: "Standing up there together—we actually sound like a team built for Series A and beyond.",
-          feedback: "Top-tier VCs know co-founder conflict is inevitable; showing you have a healthy system to resolve it spikes investor confidence.",
-          lesson: "Resilient startups aren't conflict-free—they are conflict-capable."
+          alexQuote: "Owning our rough patches made us sound ready to scale.",
+          feedback: "VCs respect teams with battle-tested conflict habits.",
+          lesson: "Investors back conflict-capable teams, not perfect fronts."
         },
         {
-          text: "Claim you two never really disagree because you're totally aligned on everything.",
-          trust: -4,
-          val: -10,
-          avoided: "Presented unrealistic 'zero conflict' front to VCs (Month 12)",
-          tag: "Polished Denial",
-          alexQuote: "They didn't buy that 'we never disagree' line at all...",
-          feedback: "Experienced investors see straight through 'we never argue'—it signals either conflict avoidance or lack of real debate.",
-          lesson: "Claiming zero conflict is a classic due-diligence red flag for experienced investors."
-        },
-        {
-          text: "Pivot the answer strictly to your revenue growth and market size, brushing past team dynamics.",
-          trust: -6,
-          val: 6,
+          text: "Answer briefly and pivot straight to your revenue growth.",
+          trust: -3,
+          val: 4,
           avoided: null,
           tag: "Metrics-Only",
-          alexQuote: "Notice how they kept asking about team stability right after you dodged the question?",
-          feedback: "Your traction metrics impress them, though the partners still jot down a question mark next to 'Founder Dynamics.'",
-          lesson: "At Seed stage, investors bet as much on co-founder durability as on early numbers."
+          alexQuote: "Numbers helped, though they kept probing how we decide.",
+          feedback: "Metrics land well, though partners note a dodge on team depth.",
+          lesson: "Traction opens doors, yet Seed VCs bet on the team."
+        },
+        {
+          text: "Project smooth alignment and downplay past disagreements.",
+          trust: -3,
+          val: -5,
+          avoided: "Glossed over conflict in VC pitch (M12)",
+          tag: "Polished Denial",
+          alexQuote: "Nobody in that room bought the 'we never clash' answer.",
+          feedback: "Seasoned partners spot rehearsed harmony and discount the pitch.",
+          lesson: "Pretending you never argue raises instant VC red flags."
         }
       ]
     }
@@ -1459,9 +1455,9 @@
   }
 
   function calcEntValue() {
-    const base = 0.55 * state.trust + 0.45 * state.valuation;
-    const stabilityBonus = state.earlyAgreement && state.avoidedIssues.length === 0 ? 4 : 0;
-    const debtDrag = state.avoidedIssues.length > 1 ? (state.avoidedIssues.length - 1) * 4 : 0;
+    const base = 0.52 * state.trust + 0.48 * state.valuation;
+    const stabilityBonus = state.earlyAgreement && state.avoidedIssues.length === 0 ? 3 : 0;
+    const debtDrag = state.avoidedIssues.length * 3;
     state.entValue = Math.max(0, Math.min(100, Math.round(base + stabilityBonus - debtDrag)));
   }
 
@@ -1789,31 +1785,28 @@
 
     if (state.avoidedIssues.length >= 2 && !state.triggeredCumulative) {
       state.triggeredCumulative = true;
-      eruptionTrustCost = -20;
+      eruptionTrustCost = -12;
       state.trust = Math.max(0, state.trust + eruptionTrustCost);
       eruptionHTML = `
         <div class="eruption-alert">
-          <strong>Cumulative Conflict Eruption!</strong> Because you avoided multiple disagreements
-          (${state.avoidedIssues.map(escapeHtml).join("; ")}), unspoken tension boiled over into a major argument this week,
-          costing an additional <strong>-20% Trust</strong>.
+          <strong>Conflict Eruption (-12% Trust):</strong> Unresolved issues (${state.avoidedIssues.map(escapeHtml).join("; ")}) boiled over this week.
         </div>
       `;
       AudioEngine.playAlert();
     } else if (state.avoidedIssues.length >= 3 && c.avoided) {
-      eruptionTrustCost = -10;
-      eruptionValCost = -5;
+      eruptionTrustCost = -6;
+      eruptionValCost = -3;
       state.trust = Math.max(0, state.trust + eruptionTrustCost);
       state.valuation = Math.max(0, state.valuation + eruptionValCost);
       eruptionHTML = `
         <div class="eruption-alert">
-          <strong>Chronic Avoidance Drag!</strong> With ${state.avoidedIssues.length} unresolved issues piling up,
-          passive tension stalls product velocity (<strong>-10% Trust</strong>, <strong>-$50k Valuation</strong>).
+          <strong>Avoidance Drag (-6% Trust, -$30k):</strong> ${state.avoidedIssues.length} unresolved issues are stalling execution.
         </div>
       `;
       AudioEngine.playAlert();
-    } else if (c.trust >= 5) {
+    } else if (c.trust >= 3 && c.val >= 0) {
       AudioEngine.playPositive();
-    } else if (c.trust <= -10) {
+    } else if (c.trust <= -6 || c.val <= -4) {
       AudioEngine.playNegative();
     } else {
       AudioEngine.playClick();
@@ -1855,12 +1848,13 @@
       if (i === idx) b.classList.add("picked");
     });
 
-    const isLast = state.step + 1 >= SCENARIOS.length || state.trust <= 0 || state.entValue <= 0;
-    const nextLabel = state.trust <= 0 || state.entValue <= 0
+    const collapsed = state.trust <= 0 || state.valuation <= 0 || state.entValue <= 0;
+    const isLast = state.step + 1 >= SCENARIOS.length || collapsed;
+    const nextLabel = collapsed
       ? "View Breakdown Report →"
       : isLast
-      ? "See Seed Round Verdict →"
-      : "Continue to Next Month →";
+      ? "See Seed Verdict →"
+      : "Next Month →";
 
     el("feedback-container").innerHTML = `
       <div class="feedback-panel">
@@ -1872,7 +1866,7 @@
           <strong>Alex:</strong> "${escapeHtml(c.alexQuote)}"
         </div>
         <div class="lesson-box">
-          <strong>Founder Lesson:</strong> ${escapeHtml(c.lesson)}
+          <strong>Takeaway:</strong> ${escapeHtml(c.lesson)}
         </div>
         <div class="deltas">
           <span class="delta-pill ${netTrust >= 0 ? "pos" : "neg"}">Trust ${netTrust >= 0 ? "+" : ""}${netTrust}%</span>
@@ -1892,7 +1886,7 @@
 
   function nextStep() {
     if (!state.awaitingNext && !state.ended) return;
-    if (state.trust <= 0 || state.entValue <= 0) {
+    if (state.trust <= 0 || state.valuation <= 0 || state.entValue <= 0) {
       return renderEnding();
     }
     state.step += 1;
@@ -1908,39 +1902,49 @@
     const tags = state.history.map((h) => h.tag);
     const avoidCount = tags.filter((t) => ["Avoidant", "Informal", "Martyrdom", "Appeasement", "Polished Denial"].includes(t)).length;
     const repairCount = tags.filter((t) => t === "Debt Repair").length;
-    const boldCount = tags.filter((t) => ["Aggressive", "Capital-First", "Top-Down", "Undermining", "Breach", "Backchannel", "Ultimatum"].includes(t)).length;
+    const boldCount = tags.filter((t) => ["Aggressive", "Capital-First", "Top-Down", "Undermining", "Backchannel", "Ultimatum"].includes(t)).length;
 
-    if (repairCount > 0 && state.trust >= 60) {
+    if (repairCount > 0 && state.trust >= 54) {
       return {
         name: "Resilient Mediator",
-        desc: "You made mistakes early on, owned them directly, and repaired relational debt before it could sink the company."
+        desc: "You took hits early, owned them candidly, and paid down relational debt before Seed."
       };
     }
-    if (avoidCount >= 2) {
+    if (avoidCount >= 3) {
       return {
         name: "Conflict Avoider",
-        desc: "You repeatedly prioritized short-term peace over candid governance—allowing unspoken tension to tax trust and velocity."
+        desc: "You repeatedly traded hard conversations for short-term peace, letting hidden debt compound."
       };
     }
-    if (boldCount >= 2) {
+    if (boldCount >= 3) {
       return {
-        name: "Unilateral Operator",
-        desc: "You optimized for speed, control, or short-term capital at the expense of co-founder alignment and psychological safety."
+        name: "Hard-Driving Operator",
+        desc: "You pushed hard for cash and speed, often taxing co-founder trust to hit numbers."
       };
     }
-    if (state.trust >= 70 && state.valuation >= 50) {
+    if (state.trust >= 64 && state.valuation >= 48) {
       return {
-        name: "Transparent Architect",
-        desc: "You paired high empathy with crisp governance—turning thorny equity, grant, and investor dilemmas into durable team strength."
+        name: "Principled Architect",
+        desc: "You navigated ugly startup trade-offs with clear rules, shared sacrifice, and steady discipline."
       };
     }
     return {
-      name: "Pragmatic Builder",
-      desc: "You balanced practical compromises with steady execution, navigating early-stage ambiguity without losing sight of survival."
+      name: "Pragmatic Survivor",
+      desc: "You absorbed inevitable bruises and compromises to keep both product and partnership alive."
     };
   }
 
   function evaluateEnding() {
+    if (state.valuation <= 0) {
+      return {
+        key: "Breakdown",
+        title: "Ending: Out of Runway (Loss)",
+        badge: "Startup Folded",
+        color: "#ef4444",
+        win: false,
+        desc: "Cash and valuation hit zero before Seed. Even good intentions fail when runway runs dry."
+      };
+    }
     if (state.trust <= 0 || state.entValue <= 0) {
       return {
         key: "Breakdown",
@@ -1948,47 +1952,47 @@
         badge: "Partnership Collapsed",
         color: "#ef4444",
         win: false,
-        desc: "Trust or Entrepreneur Value hit zero before closing the Seed Round. Your co-founder walked out, and the startup imploded under internal conflict."
+        desc: "Co-founder trust hit zero before Seed. Alex walked out and the venture imploded."
       };
     }
-    if (state.trust >= 75 && state.entValue >= 70 && state.avoidedIssues.length === 0) {
+    if (state.trust >= 66 && state.entValue >= 64 && state.avoidedIssues.length === 0) {
       return {
         key: "Rocketship Partnership",
-        title: "Ending: Rocketship Partnership (S-Rank!)",
-        badge: "Oversubscribed Seed Round",
+        title: "Ending: Rocketship Partnership (S-Rank)",
+        badge: "Oversubscribed Seed",
         color: "#10b981",
         win: true,
-        desc: "Investors couldn't wire the Seed round fast enough. With zero relational debt, sky-high Trust, and strong traction, your founding team is built to scale through Series A and beyond."
+        desc: "Battle-tested, solvent, and debt-free. VCs fiercely competed to lead your Seed round."
       };
     }
-    if (state.trust >= 60 && state.entValue >= 58 && state.avoidedIssues.length <= 1) {
+    if (state.trust >= 52 && state.entValue >= 50 && state.avoidedIssues.length <= 1) {
       return {
         key: "Strong Partnership",
-        title: "Ending: Strong Partnership (Full Win)",
+        title: "Ending: Strong Partnership (Win)",
         badge: "Seed Round Closed",
         color: "#10b981",
         win: true,
-        desc: "You reached your Seed Round with both high Trust and high Entrepreneur Value! By confronting key disagreements constructively, your founding team passed investor due diligence with flying colors."
+        desc: "Bruised by tough trade-offs, your team stayed aligned enough to pass Seed diligence."
       };
     }
-    if (state.trust < 45 && state.earlyAgreement && state.entValue >= 38) {
+    if (state.trust < 48 && state.earlyAgreement && state.entValue >= 40) {
       return {
         key: "Clean Split",
         title: "Ending: Clean Split (Partial Win)",
         badge: "Orderly Transition",
         color: "#38bdf8",
         win: true,
-        desc: "You and Alex realized your working styles had diverged and parted ways. Because you formalized equity and vesting early in Month 2, the cap table stayed clean and the startup survived to raise its Seed Round."
+        desc: "You and Alex parted ways, but Month 2 vesting kept the cap table clean enough to raise Seed."
       };
     }
-    if (state.trust >= 35 && state.entValue >= 38) {
+    if (state.trust >= 34 && state.entValue >= 38) {
       return {
         key: "Survived, But Strained",
         title: "Ending: Survived, But Strained",
-        badge: "Bridge Round Only",
+        badge: "Small Bridge Only",
         color: "#f59e0b",
         win: false,
-        desc: "You scraped together enough support to stay alive, but unresolved issues and strained trust scared off top Seed leads. Without resetting your communication habits, scaling will break the team."
+        desc: "Lead Seed VCs passed over lingering team cracks, leaving you on a tight bridge extension."
       };
     }
     return {
@@ -1997,7 +2001,7 @@
       badge: "Seed Pitch Rejected",
       color: "#ef4444",
       win: false,
-      desc: "You reached Month 12, but your Trust and Entrepreneur Value were too low to convince Seed investors that your founding team could survive the next two years."
+      desc: "After 12 grueling months, weak trust and traction failed to convince Seed investors."
     };
   }
 
