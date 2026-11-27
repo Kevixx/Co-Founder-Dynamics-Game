@@ -1204,7 +1204,7 @@
       shortLabel: "M9",
       month: "Month 9: Tight Grant Budget",
       chapter: "Crisis: Cash Squeeze",
-      text: "You win a 50,000 kr grant, but overdue cloud and legal bills eat half. Alex wants a conference booth; you want QA.",
+      text: "You win a $10k grant, but overdue cloud and legal bills eat half. Alex wants a conference booth; you want QA.",
       getChoices: () => [
         {
           text: "Clear the overdue bills first; split the small remainder.",
